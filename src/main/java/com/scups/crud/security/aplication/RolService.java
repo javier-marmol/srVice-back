@@ -1,5 +1,6 @@
 package com.scups.crud.security.aplication;
 
+import com.scups.crud.security.aplication.port.RolServicePort;
 import com.scups.crud.security.domain.Rol;
 import com.scups.crud.shared.enums.RolName;
 import com.scups.crud.security.infrastructure.repository.RolRepository;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class RolService {
+public class RolService implements RolServicePort {
 
     @Autowired
     RolRepository rolRepository;

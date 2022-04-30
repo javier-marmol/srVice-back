@@ -1,4 +1,4 @@
-package com.scups.crud.security.infrastructure.controller.dto;
+package com.scups.crud.security.infrastructure.controller.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,16 +2,18 @@ package com.scups.crud.security.infrastructure.controller;
 
 import com.scups.crud.client.domain.Client;
 import com.scups.crud.client.infrastructure.repository.ClientRepositoryJpa;
+import com.scups.crud.security.aplication.port.RolServicePort;
+import com.scups.crud.security.aplication.port.UserServicePort;
 import com.scups.crud.shared.dto.Alert;
-import com.scups.crud.security.infrastructure.controller.dto.JwtDto;
-import com.scups.crud.security.infrastructure.controller.dto.LoginDto;
+import com.scups.crud.security.infrastructure.controller.dto.auth.JwtDto;
+import com.scups.crud.security.infrastructure.controller.dto.auth.LoginDto;
 import com.scups.crud.security.domain.Rol;
 import com.scups.crud.security.domain.User;
 import com.scups.crud.shared.enums.RolName;
 import com.scups.crud.security.jwt.JwtProvider;
 import com.scups.crud.security.aplication.RolService;
 import com.scups.crud.security.aplication.UserService;
-import com.scups.crud.security.infrastructure.controller.dto.RegisterDto;
+import com.scups.crud.security.infrastructure.controller.dto.auth.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +42,10 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    UserService userService;
+    UserServicePort userService;
 
     @Autowired
-    RolService rolService;
+    RolServicePort rolService;
 
     @Autowired
     JwtProvider jwtProvider;
@@ -67,7 +69,7 @@ public class AuthController {
         if(registerDto.getRoles().contains("admin"))
             roles.add(rolService.getByRolName(RolName.ROLE_ADMIN).get());
         usuario.setRols(roles);
-        userService.save(usuario);
+        userService.create(usuario);
         Client client = new Client();
         client.setUser(usuario);
         clientRepositoryJpa.save(client);

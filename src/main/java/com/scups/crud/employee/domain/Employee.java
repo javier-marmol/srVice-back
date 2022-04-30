@@ -24,6 +24,6 @@ public class Employee {
     private User user;
 
     public Employee(EmployeeInputDto employeeInputDto){
-        this.setCif(cif);
+        this.setCif(employeeInputDto.getCif());
     }
 }
