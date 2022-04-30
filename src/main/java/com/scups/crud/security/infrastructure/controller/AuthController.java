@@ -86,8 +86,4 @@ public class AuthController {
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         return new ResponseEntity(jwtDto, HttpStatus.OK);
     }
-    @GetMapping("/register/google")
-    public String registerGoogle(){
-        return "Todo cool";
-    }
 }
