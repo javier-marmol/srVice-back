@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="scups_back" />
         <module name="srVice" />
+        <module name="srVice-back" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="scups_back" options="-parameters" />
       <module name="srVice" options="-parameters" />
+      <module name="srVice-back" options="-parameters" />
     </option>
   </component>
 </project>

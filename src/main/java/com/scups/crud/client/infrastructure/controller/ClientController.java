@@ -12,12 +12,4 @@ import java.util.List;
 @CrossOrigin
 public class ClientController {
 
-    @Autowired
-    private ClientRepositoryJpa clientRepositoryJpa;
-
-    @PostMapping("/getAll")
-    private List<Client> getAllClients(){
-        return clientRepositoryJpa.findAll();
-    }
-
 }
