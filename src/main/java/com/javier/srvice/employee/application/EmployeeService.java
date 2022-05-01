@@ -1,7 +1,7 @@
-package com.javier.srvice.employee.aplication;
+package com.javier.srvice.employee.application;
 
 import com.javier.srvice.employee.domain.Employee;
-import com.javier.srvice.employee.aplication.port.EmployeeServicePort;
+import com.javier.srvice.employee.application.port.EmployeeServicePort;
 import com.javier.srvice.employee.infrastructure.repository.EmployeeRepositoryJpa;
 import com.javier.srvice.security.aplication.port.RolServicePort;
 import com.javier.srvice.security.domain.User;

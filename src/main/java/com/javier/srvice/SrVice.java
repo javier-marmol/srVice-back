@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Scups {
+public class SrVice {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Scups.class, args);
+		SpringApplication.run(SrVice.class, args);
 	}
 
 }

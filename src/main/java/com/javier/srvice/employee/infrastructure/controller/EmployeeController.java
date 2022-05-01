@@ -4,7 +4,7 @@ import com.javier.srvice.employee.domain.Employee;
 import com.javier.srvice.employee.infrastructure.controller.dto.input.EmployeeInputDto;
 import com.javier.srvice.employee.infrastructure.controller.dto.output.EmployeeOutputDto;
 import com.javier.srvice.security.aplication.port.UserServicePort;
-import com.javier.srvice.employee.aplication.port.EmployeeServicePort;
+import com.javier.srvice.employee.application.port.EmployeeServicePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

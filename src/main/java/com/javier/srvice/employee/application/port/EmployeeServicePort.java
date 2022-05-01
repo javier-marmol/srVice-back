@@ -1,4 +1,4 @@
-package com.javier.srvice.employee.aplication.port;
+package com.javier.srvice.employee.application.port;
 
 import com.javier.srvice.employee.domain.Employee;
 
