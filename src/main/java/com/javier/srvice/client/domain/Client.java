@@ -1,5 +1,6 @@
 package com.javier.srvice.client.domain;
 
+import com.javier.srvice.job.domain.Job;
 import com.javier.srvice.security.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Setter
@@ -21,4 +23,7 @@ public class Client {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
+    private List<Job> jobs;
 }
