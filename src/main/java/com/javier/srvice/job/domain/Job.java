@@ -2,7 +2,9 @@ package com.javier.srvice.job.domain;
 
 import com.javier.srvice.client.domain.Client;
 import com.javier.srvice.job.infrastructure.controller.dto.input.JobInputDto;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import javax.persistence.*;
 @Table(name = "job")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
