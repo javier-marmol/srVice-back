@@ -28,8 +28,8 @@ public class Job {
     @Column(name = "searching_candidate")
     private Boolean searchingCandidate;
 
-   @Column(name = "active")
-   private Boolean active;
+   @Column(name = "in_progress")
+   private Boolean inProgress;
 
     @ManyToOne
     @JoinColumn(name = "client")
@@ -40,6 +40,6 @@ public class Job {
         this.setCategory(jobInputDto.getCategory());
         this.setName(jobInputDto.getName());
         this.setSearchingCandidate(jobInputDto.getSearchingCandidate());
-        this.setActive(jobInputDto.getActive());
+        this.setInProgress(jobInputDto.getInProgress());
     }
 }

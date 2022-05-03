@@ -21,5 +21,5 @@ public class JobInputDto {
 
     private Integer idClient;
 
-    private Boolean active=true;
+    private Boolean inProgress=false;
 }

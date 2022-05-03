@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/job")
@@ -22,4 +25,25 @@ public class JobController {
         return new JobOutputDto(job);
     }
 
+    @PutMapping("/update/{id}")
+    public JobOutputDto update(@RequestBody JobInputDto jobInputDto, @PathVariable("id") Integer id) throws Exception {
+        Job job = jobServicePort.update(new Job(jobInputDto), id);
+        return new JobOutputDto(job);
+    }
+    @GetMapping("/findAll")
+    public List<JobOutputDto> findAll(){
+        List<Job> jobs = jobServicePort.findAll();
+        List<JobOutputDto> jobsOutputDto = jobs.stream().map(JobOutputDto::new).collect(Collectors.toList());
+        return jobsOutputDto;
+    }
+    @GetMapping("/find/{id}")
+    public JobOutputDto findById(@PathVariable("id") Integer id) throws Exception {
+        Job job = jobServicePort.findById(id);
+        return new JobOutputDto(job);
+    }
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id) throws Exception{
+        jobServicePort.delete(id);
+        return "Deleted job with id: " + id;
+    }
 }

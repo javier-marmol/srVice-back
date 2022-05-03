@@ -19,7 +19,7 @@ public class JobOutputDto {
 
     private Integer idClient;
 
-    private Boolean active;
+    private Boolean inProgress;
 
     public JobOutputDto(Job job){
         this.setId(job.getId());
@@ -28,6 +28,6 @@ public class JobOutputDto {
         this.setPrice(job.getPrice());
         this.setSearchingCandidate(job.getSearchingCandidate());
         if(job.getClient()!=null)this.setIdClient(job.getClient().getId());
-        this.setActive(job.getActive());
+        this.setInProgress(job.getInProgress());
     }
 }
