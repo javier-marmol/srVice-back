@@ -2,12 +2,14 @@ package com.javier.srvice.job.domain;
 
 import com.javier.srvice.client.domain.Client;
 import com.javier.srvice.job.infrastructure.controller.dto.input.JobInputDto;
+import com.javier.srvice.presentedTo.domain.PresentedTo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "job")
@@ -38,6 +40,9 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "client")
     private Client client;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "job")
+    private List<PresentedTo> candidates;
 
     public Job(JobInputDto jobInputDto){
         this.setPrice(jobInputDto.getPrice());

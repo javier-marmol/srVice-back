@@ -5,7 +5,7 @@ import com.javier.srvice.security.domain.User;
 import java.util.Optional;
 
 public interface UserServicePort {
-    Optional<User> getByNombreUsuario(String name);
+    Optional<User> getByEmail(String email);
 
     boolean existsByName(String name);
 

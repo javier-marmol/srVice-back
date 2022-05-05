@@ -23,8 +23,8 @@ public class UserService implements UserServicePort {
     @Autowired
     RolServicePort rolServicePort;
 
-    public Optional<User> getByNombreUsuario(String name){
-        return userRepositoryJpa.findByName(name);
+    public Optional<User> getByEmail(String email){
+        return userRepositoryJpa.findByEmail(email);
     }
 
     public boolean existsByName(String name){

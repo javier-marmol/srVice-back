@@ -5,6 +5,8 @@ import com.javier.srvice.client.infrastructure.repository.ClientRepositoryJpa;
 import com.javier.srvice.job.application.port.JobServicePort;
 import com.javier.srvice.job.domain.Job;
 import com.javier.srvice.job.infrastructure.repository.JobRepositoryJpa;
+import com.javier.srvice.security.domain.User;
+import com.javier.srvice.shared.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +24,17 @@ public class JobService implements JobServicePort {
     @Autowired
     private ClientRepositoryJpa clientRepositoryJpa;
 
-    public Job create(Job job, Integer idClient) throws Exception, ELException {
-        Optional<Client> client = clientRepositoryJpa.findById(idClient);
-        if(client.get()==null) throw new Exception("That client doesn't exist");
-        job.setClient(client.get());
+    public Job create(Job job, Integer idClient, String emailAuth) throws Exception, ELException {
+        Client client = clientRepositoryJpa.findById(idClient).orElseThrow(() -> new Exception("That client does not exists"));
+        AuthUtil.checkAuth(client.getUser(), emailAuth);
+        job.setClient(client);
         jobRepositoryJpa.save(job);
         return job;
     }
 
-    public Job update(Job job, Integer id) throws Exception {
-        Optional<Job> jobOptional = jobRepositoryJpa.findById(id);
-        if(jobOptional.isEmpty()) throw new Exception("That job doesn't exists");
+
+    public Job update(Job job, Integer id, String emailAuth) throws Exception {
+        AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
         job.setId(id);
         jobRepositoryJpa.save(job);
         return job;
@@ -42,16 +44,17 @@ public class JobService implements JobServicePort {
         return jobRepositoryJpa.findAll();
     }
 
+
     public Job findById(Integer id) throws Exception {
         Optional<Job> jobOptional = jobRepositoryJpa.findById(id);
         if(jobOptional.isEmpty()) throw new Exception("That job doesn't exists");
         return jobOptional.get();
     }
 
-    public void delete(Integer id) throws Exception {
-        Optional<Job> jobOptional = jobRepositoryJpa.findById(id);
-        if(jobOptional.isEmpty()) throw new Exception("That job doesn't exists");
-        if (jobOptional.get().getInProgress()) throw new Exception("Can't delete a job that has started");
-        jobRepositoryJpa.delete(jobOptional.get());
+    public void delete(Integer id, String emailAuth) throws Exception {
+        Job job = jobRepositoryJpa.findById(id).orElseThrow(() -> new Exception("That job doesn't exists"));
+        AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
+        if (job.getInProgress()) throw new Exception("Can't delete a job that has started");
+        jobRepositoryJpa.delete(job);
     }
 }

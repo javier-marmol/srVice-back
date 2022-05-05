@@ -6,9 +6,9 @@ import javax.el.ELException;
 import java.util.List;
 
 public interface JobServicePort {
-    Job create(Job job, Integer idClient) throws Exception;
-    Job update(Job job, Integer id) throws Exception;
+    Job create(Job job, Integer idClient, String emailAuth) throws Exception;
+    Job update(Job job, Integer id, String emailAuth) throws Exception;
     List<Job> findAll();
     Job findById(Integer id) throws Exception;
-    void delete(Integer id) throws Exception;
+    void delete(Integer id, String emailAuth) throws Exception;
 }
