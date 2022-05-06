@@ -31,7 +31,15 @@ public class PresentedTo {
     @JoinColumn(name = "job", referencedColumnName = "id")
     private Job job;
 
+    @Column(name = "selected")
+    private Boolean selected;
+
+    @Column(name = "favourite")
+    private Boolean favourite;
+
     public PresentedTo(PresentedToInputDto presentedToInputDto){
         this.setSuggestedPrice(presentedToInputDto.getSuggestedPrice());
+        this.setFavourite(false);
+        this.setSelected(false);
     }
 }

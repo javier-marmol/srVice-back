@@ -39,5 +39,38 @@ public class PresentedToService implements PresentedToServicePort {
         return presentedTo;
     }
 
+    @Override
+    public PresentedTo selectCandidate(Integer idJob, Integer idEmployee, String emailAuth) throws Exception {
+        Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
+        Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("That employee does not exists"));
+        AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
+        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job);
+        presentedTo.setSelected(true);
+        job.setSearchingCandidate(false);
+        job.setInProgress(true);
+        jobRepositoryJpa.save(job);
+        presentedToRepositoryJpa.save(presentedTo);
+        return presentedTo;
+    }
+    @Override
+    public PresentedTo favourite(Integer idJob, Integer idEmployee, String emailAuth) throws Exception {
+        Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
+        Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("That employee does not exists"));
+        AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
+        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job);
+        presentedTo.setFavourite(true);
+        presentedToRepositoryJpa.save(presentedTo);
+        return presentedTo;
+    }
+    @Override
+    public PresentedTo deselectFavourite(Integer idJob, Integer idEmployee, String emailAuth) throws Exception {
+        Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
+        Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("That employee does not exists"));
+        AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
+        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job);
+        presentedTo.setFavourite(false);
+        presentedToRepositoryJpa.save(presentedTo);
+        return presentedTo;
+    }
 }
 

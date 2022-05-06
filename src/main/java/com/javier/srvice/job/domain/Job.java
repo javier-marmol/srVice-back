@@ -34,8 +34,8 @@ public class Job {
     @Column(name = "searching_candidate")
     private Boolean searchingCandidate;
 
-   @Column(name = "in_progress")
-   private Boolean inProgress;
+    @Column(name = "in_progress")
+    private Boolean inProgress;
 
     @ManyToOne
     @JoinColumn(name = "client")
@@ -43,6 +43,12 @@ public class Job {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "job")
     private List<PresentedTo> candidates;
+
+    @Column(name = "client_declare_as_finished")
+    private Boolean clientDeclareAsFinished;
+
+    @Column(name = "employee_declare_as_finished")
+    private Boolean employeeDeclareAsFinished;
 
     public Job(JobInputDto jobInputDto){
         this.setPrice(jobInputDto.getPrice());
