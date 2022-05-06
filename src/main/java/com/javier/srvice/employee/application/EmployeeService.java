@@ -6,6 +6,7 @@ import com.javier.srvice.employee.infrastructure.repository.EmployeeRepositoryJp
 import com.javier.srvice.security.aplication.port.RolServicePort;
 import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
+import com.javier.srvice.shared.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,9 @@ public class EmployeeService implements EmployeeServicePort {
     private RolServicePort rolServicePort;
 
     @Override
-    public Employee create(Employee employee, Integer idUser) {
+    public Employee create(Employee employee, Integer idUser, String emailAuth) throws Exception {
         User user = userRepositoryJpa.findById(idUser).get();
+        AuthUtil.checkAuth(user, emailAuth);
         employee.setUser(user);
         Employee employeeToReturn = employeeRepositoryJpa.save(employee);
         return employeeToReturn;
