@@ -11,4 +11,6 @@ public interface JobServicePort {
     List<Job> findAll();
     Job findById(Integer id) throws Exception;
     void delete(Integer id, String emailAuth) throws Exception;
+    Job clientDefineAsFinished(Integer idJob, String emailAuth) throws Exception;
+    Job employeeDefineAsFinished(Integer idJob, String emailAuth) throws Exception;
 }

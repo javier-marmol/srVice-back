@@ -47,4 +47,14 @@ public class JobController {
         jobServicePort.delete(id, principal.getName());
         return "Deleted job with id: " + id;
     }
+    @PutMapping("/clientDefineAsFinished/{idJob}")
+    public JobOutputDto clientDefineAsFinished(@PathVariable("idJob") Integer idJob, Principal principal) throws Exception{
+        Job job = jobServicePort.clientDefineAsFinished(idJob, principal.getName());
+        return new JobOutputDto(job);
+    }
+    @PutMapping("/employeeDefineAsFinished/{idJob}")
+    public JobOutputDto employeeDefineAsFinished(@PathVariable("idJob") Integer idJob, Principal principal) throws Exception{
+        Job job = jobServicePort.employeeDefineAsFinished(idJob, principal.getName());
+        return new JobOutputDto(job);
+    }
 }
