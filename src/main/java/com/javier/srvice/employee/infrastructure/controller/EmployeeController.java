@@ -23,8 +23,7 @@ public class EmployeeController {
 
     @PostMapping("create")
     public EmployeeOutputDto create(@RequestBody EmployeeInputDto employeeInputDto, Principal principal) throws Exception {
-        Employee employee = new Employee(employeeInputDto);
-        Employee employeeSaved = employeeServicePort.create(employee, employeeInputDto.getIdUser(), principal.getName());
+        Employee employeeSaved = employeeServicePort.create(employeeInputDto, principal.getName());
         EmployeeOutputDto employeeOutputDto = new EmployeeOutputDto(employeeSaved);
         userServicePort.makeUserEmployee(employeeSaved.getUser());
         return employeeOutputDto;

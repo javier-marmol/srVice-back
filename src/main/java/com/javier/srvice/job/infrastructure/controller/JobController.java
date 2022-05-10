@@ -22,7 +22,7 @@ public class JobController {
 
     @PostMapping("/create")
     public JobOutputDto create(@RequestBody JobInputDto jobInputDto, Principal principal) throws Exception {
-        Job job = jobServicePort.create(new Job(jobInputDto), jobInputDto.getIdClient(), principal.getName());
+        Job job = jobServicePort.create(jobInputDto, principal.getName());
         return new JobOutputDto(job);
     }
 
