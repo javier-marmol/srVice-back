@@ -20,8 +20,12 @@ public class CommentController {
 
     @PostMapping("/{idJob}")
     public CommentOutputDto comment(@PathVariable("idJob") Integer idJob, @RequestBody CommentInputDto commentInputDto, Principal principal) throws Exception {
-        Comment comment = new Comment(commentInputDto);
-        comment = commentServicePort.comment(comment, idJob, commentInputDto.getIdUserCommenter(), commentInputDto.getIdUserCommented());
+        Comment comment = commentServicePort.comment(commentInputDto, idJob, principal.getName());
+        return new CommentOutputDto(comment);
+    }
+    @PutMapping("/update/{idComment}")
+    public CommentOutputDto update(@PathVariable("idComment") Integer idComment, @RequestBody CommentInputDto commentInputDto, Principal principal) throws Exception {
+        Comment comment = commentServicePort.update(commentInputDto, idComment, principal.getName());
         return new CommentOutputDto(comment);
     }
 }

@@ -1,6 +1,7 @@
 package com.javier.srvice.comment.domain;
 
 import com.javier.srvice.comment.infrastructure.controller.dto.input.CommentInputDto;
+import com.javier.srvice.job.domain.Job;
 import com.javier.srvice.security.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class Comment {
     @Column(name = "comment_date")
     private Date commentDate;
 
+    @Column(name = "type")
+    private String type;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_commenter", referencedColumnName = "id")
     private User userCommenter;
@@ -32,6 +36,10 @@ public class Comment {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_commented", referencedColumnName = "id")
     private User userCommented;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_job", referencedColumnName = "id")
+    private Job job;
 
     public Comment(CommentInputDto comment){
         this.setCommentDate(comment.getCommentDate());

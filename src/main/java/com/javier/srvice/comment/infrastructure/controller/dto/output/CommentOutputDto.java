@@ -21,6 +21,7 @@ public class CommentOutputDto {
     private Date commentDate;
     private Integer idUserCommenter;
     private Integer idUserCommented;
+    private String type;
 
     public CommentOutputDto(Comment comment){
         this.setId(comment.getId());
@@ -28,5 +29,6 @@ public class CommentOutputDto {
         this.setCommentDate(comment.getCommentDate());
         this.setIdUserCommenter(comment.getUserCommenter().getId());
         this.setIdUserCommented(comment.getUserCommented().getId());
+        this.setType(comment.getType());
     }
 }
