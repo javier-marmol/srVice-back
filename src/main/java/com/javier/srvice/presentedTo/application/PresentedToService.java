@@ -26,10 +26,10 @@ public class PresentedToService implements PresentedToServicePort {
 
 
     @Override
-    public PresentedTo presentTo(PresentedTo presentedTo, Integer idEmployee, Integer idJob, String emailAuth) throws Exception {
-
-        Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("Cannot present to a job that doesn't exist"));
-        Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("Cannot present to a job if you are not an employee"));
+    public PresentedTo presentTo(PresentedToInputDto presentedToInputDto, String emailAuth) throws Exception {
+        PresentedTo presentedTo = new PresentedTo(presentedToInputDto);
+        Job job = jobRepositoryJpa.findById(presentedToInputDto.getIdJob()).orElseThrow(() -> new Exception("Cannot present to a job that doesn't exist"));
+        Employee employee = employeeRepositoryJpa.findById(presentedToInputDto.getIdEmployee()).orElseThrow(() -> new Exception("Cannot present to a job if you are not an employee"));
         AuthUtil.checkAuth(employee.getUser(),emailAuth);
         if(job.getInProgress()==true) throw new Exception("Cannot present to a job that is already in progress");
         if(job.getSearchingCandidate()!=true) throw new Exception("Cannot present to a job that is not searching for candidates");

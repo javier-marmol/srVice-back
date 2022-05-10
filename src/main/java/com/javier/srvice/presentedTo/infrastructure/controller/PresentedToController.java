@@ -20,8 +20,7 @@ public class PresentedToController {
 
     @PostMapping("/presentTo")
     public PresentedToOutputDto present(@RequestBody PresentedToInputDto presentedToInputDto, Principal principal) throws Exception {
-        PresentedTo presentedTo = new PresentedTo(presentedToInputDto);
-        presentedTo = presentedToServicePort.presentTo(presentedTo, presentedToInputDto.getIdEmployee(), presentedToInputDto.getIdJob(), principal.getName());
+        PresentedTo presentedTo = presentedToServicePort.presentTo(presentedToInputDto, principal.getName());
         return new PresentedToOutputDto(presentedTo);
     }
     @PutMapping("/{idJob}/selectCandidate/{idEmployee}")

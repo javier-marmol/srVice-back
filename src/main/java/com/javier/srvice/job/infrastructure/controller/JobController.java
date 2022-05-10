@@ -22,7 +22,7 @@ public class JobController {
 
     @PostMapping("/create")
     public JobOutputDto create(@RequestBody JobInputDto jobInputDto, Principal principal) throws Exception {
-        Job job = jobServicePort.create(new Job(jobInputDto), jobInputDto.getIdClient(), principal.getName());
+        Job job = jobServicePort.create(jobInputDto, principal.getName());
         return new JobOutputDto(job);
     }
 
@@ -46,5 +46,15 @@ public class JobController {
     public String delete(@PathVariable("id") Integer id, Principal principal) throws Exception{
         jobServicePort.delete(id, principal.getName());
         return "Deleted job with id: " + id;
+    }
+    @PutMapping("/clientDefineAsFinished/{idJob}")
+    public JobOutputDto clientDefineAsFinished(@PathVariable("idJob") Integer idJob, Principal principal) throws Exception{
+        Job job = jobServicePort.clientDefineAsFinished(idJob, principal.getName());
+        return new JobOutputDto(job);
+    }
+    @PutMapping("/employeeDefineAsFinished/{idJob}")
+    public JobOutputDto employeeDefineAsFinished(@PathVariable("idJob") Integer idJob, Principal principal) throws Exception{
+        Job job = jobServicePort.employeeDefineAsFinished(idJob, principal.getName());
+        return new JobOutputDto(job);
     }
 }
