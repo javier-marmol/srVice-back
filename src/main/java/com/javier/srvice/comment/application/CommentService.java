@@ -10,9 +10,12 @@ import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
 import com.javier.srvice.shared.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CommentService implements CommentServicePort {
 
     @Autowired
@@ -27,14 +30,16 @@ public class CommentService implements CommentServicePort {
     @Override
     public Comment comment(CommentInputDto commentInputDto, Integer idJob, String emailAuth) throws Exception {
         Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
+        if(commentInputDto.getIdUserCommented()==commentInputDto.getIdUserCommenter()) throw new Exception("You cannot comment yourself");
+        User commenter = userRepositoryJpa.findById(commentInputDto.getIdUserCommenter()).orElseThrow(() -> new Exception("That user does not exists"));
+        AuthUtil.checkAuth(commenter, emailAuth);
         checkIfAlreadyCommented(commentInputDto, job);
         if(job.getInProgress()||job.getSearchingCandidate() || !job.getClientDeclareAsFinished() || !job.getEmployeeDeclareAsFinished()) throw new Exception("Cannot comment if the job is not finished yet");
         Comment comment = new Comment(commentInputDto);
-        User commenter = userRepositoryJpa.findById(commentInputDto.getIdUserCommenter()).orElseThrow(() -> new Exception("That user does not exists"));
-        AuthUtil.checkAuth(commenter, emailAuth);
         User commented = userRepositoryJpa.findById(commentInputDto.getIdUserCommented()).orElseThrow(() -> new Exception("That user does not exists"));
         comment.setUserCommenter(commenter);
         comment.setUserCommented(commented);
+        comment.setJob(job);
         setCommentType(job, comment);
         commentRepositoryJpa.save(comment);
         return comment;
@@ -57,8 +62,12 @@ public class CommentService implements CommentServicePort {
 
 
     private void checkIfAlreadyCommented(CommentInputDto commentInputDto, Job job) throws Exception {
-        Optional<Comment> alreadyCommented = commentRepositoryJpa.findByJob(job);
-        if(!alreadyCommented.isEmpty())
-            if(alreadyCommented.get().getUserCommenter().getId()== commentInputDto.getIdUserCommenter()) throw new Exception("You have already commented");
+        List<Comment> alreadyCommented = commentRepositoryJpa.findByJob(job);
+        if(alreadyCommented.size()>0)
+            for (Comment comment: alreadyCommented){
+                if(comment.getUserCommenter().getId()== commentInputDto.getIdUserCommenter()){
+                    throw new Exception("You have already commented");
+                }
+            }
     }
 }

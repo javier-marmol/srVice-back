@@ -56,5 +56,7 @@ public class Job {
         this.setName(jobInputDto.getName());
         this.setSearchingCandidate(jobInputDto.getSearchingCandidate());
         this.setInProgress(jobInputDto.getInProgress());
+        this.setClientDeclareAsFinished(false);
+        this.setEmployeeDeclareAsFinished(false);
     }
 }
