@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/comment")
@@ -27,5 +29,15 @@ public class CommentController {
     public CommentOutputDto update(@PathVariable("idComment") Integer idComment, @RequestBody CommentInputDto commentInputDto, Principal principal) throws Exception {
         Comment comment = commentServicePort.update(commentInputDto, idComment, principal.getName());
         return new CommentOutputDto(comment);
+    }
+    @GetMapping("getClientComments/{idClient}")
+    public List<CommentOutputDto> getClientComments(@PathVariable("idClient") Integer idCLient) throws Exception {
+        List<Comment> comments = commentServicePort.getClientComments(idCLient);
+        return comments.stream().map(CommentOutputDto::new).collect(Collectors.toList());
+    }
+    @GetMapping("getEmployeeComments/{idEmployee}")
+    public List<CommentOutputDto> getEmployeeComments(@PathVariable("idEmployee") Integer idEmployee) throws Exception {
+        List<Comment> comments = commentServicePort.getEmployeeComments(idEmployee);
+        return comments.stream().map(CommentOutputDto::new).collect(Collectors.toList());
     }
 }

@@ -1,9 +1,13 @@
 package com.javier.srvice.comment.application;
 
+import com.javier.srvice.client.domain.Client;
+import com.javier.srvice.client.infrastructure.repository.ClientRepositoryJpa;
 import com.javier.srvice.comment.application.port.CommentServicePort;
 import com.javier.srvice.comment.domain.Comment;
 import com.javier.srvice.comment.infrastructure.controller.dto.input.CommentInputDto;
 import com.javier.srvice.comment.infrastructure.repository.CommentRepositoryJpa;
+import com.javier.srvice.employee.domain.Employee;
+import com.javier.srvice.employee.infrastructure.repository.EmployeeRepositoryJpa;
 import com.javier.srvice.job.domain.Job;
 import com.javier.srvice.job.infrastructure.repository.JobRepositoryJpa;
 import com.javier.srvice.security.domain.User;
@@ -26,6 +30,12 @@ public class CommentService implements CommentServicePort {
 
     @Autowired
     private JobRepositoryJpa jobRepositoryJpa;
+
+    @Autowired
+    private ClientRepositoryJpa clientRepositoryJpa;
+
+    @Autowired
+    private EmployeeRepositoryJpa employeeRepositoryJpa;
 
     @Override
     public Comment comment(CommentInputDto commentInputDto, Integer idJob, String emailAuth) throws Exception {
@@ -52,6 +62,22 @@ public class CommentService implements CommentServicePort {
         comment.setBody(commentInputDto.getBody());
         commentRepositoryJpa.save(comment);
         return comment;
+    }
+
+    @Override
+    public List<Comment> getClientComments(Integer idClient) throws Exception {
+        Client client = clientRepositoryJpa.findById(idClient).orElseThrow(() -> new Exception("That client does not exists"));
+        User user = client.getUser();
+        List<Comment> comments = commentRepositoryJpa.findByUserCommentedAndType(user, "toClient");
+        return comments;
+    }
+
+    @Override
+    public List<Comment> getEmployeeComments(Integer idEmployee) throws Exception {
+        Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("That employee does not exists"));
+        User user = employee.getUser();
+        List<Comment> comments = commentRepositoryJpa.findByUserCommentedAndType(user, "toEmployee");
+        return comments;
     }
 
     private void setCommentType(Job job, Comment comment) {
