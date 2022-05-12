@@ -1,8 +1,9 @@
 package com.javier.srvice.file.application.port;
 
+import com.javier.srvice.file.domain.File;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FileStoragePort {
-    String storeFile(MultipartFile file) throws Exception;
-    String deleteFile(String file) throws Exception;
+    File storeFile(MultipartFile file) throws Exception;
+    void deleteFile(Integer idFile) throws Exception;
 }

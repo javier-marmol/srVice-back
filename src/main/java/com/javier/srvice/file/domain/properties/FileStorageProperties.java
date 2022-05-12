@@ -1,4 +1,4 @@
-package com.javier.srvice.file.domain;
+package com.javier.srvice.file.domain.properties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
