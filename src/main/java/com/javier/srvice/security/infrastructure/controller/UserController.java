@@ -5,6 +5,7 @@ import com.javier.srvice.security.aplication.port.UserServicePort;
 import com.javier.srvice.security.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.Authenticator;
 import java.security.Principal;
@@ -23,4 +24,5 @@ public class UserController {
         User user = userServicePort.getByEmail(email).orElseThrow(() -> new Exception("That user does not exists"));
         return new UserOutputDto(user);
     }
+
 }

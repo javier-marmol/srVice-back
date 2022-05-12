@@ -31,6 +31,8 @@ public class User {
     @JoinTable(name = "user_rol", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Rol> rols = new HashSet<>();
+    @Column(name="image")
+    private String image;
 
 
     public User(String name, String email, String encode) {

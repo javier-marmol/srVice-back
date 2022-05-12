@@ -12,6 +12,7 @@ import com.javier.srvice.security.infrastructure.controller.dto.auth.LoginDto;
 import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.jwt.JwtProvider;
 import com.javier.srvice.security.infrastructure.controller.dto.auth.RegisterDto;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.io.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -86,4 +89,5 @@ public class AuthController {
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
         return new ResponseEntity(jwtDto, HttpStatus.OK);
     }
+
 }
