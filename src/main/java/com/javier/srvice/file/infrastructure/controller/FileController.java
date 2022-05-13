@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.security.Principal;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/file")
@@ -17,8 +19,8 @@ public class FileController {
     private FileStoragePort fileStoragePort;
 
     @PostMapping("/uploadFile")
-    public FileOutputDto uploadFile(@RequestParam("file")MultipartFile file) throws Exception {
-        File fileToSave = fileStoragePort.storeFile(file);
+    public FileOutputDto uploadFile(@RequestParam("file")MultipartFile file, Principal principal) throws Exception {
+        File fileToSave = fileStoragePort.storeFile(file, principal.getName());
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(fileToSave.getFileName()).toUriString();
         return new FileOutputDto(fileToSave);
     }

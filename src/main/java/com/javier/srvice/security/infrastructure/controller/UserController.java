@@ -24,5 +24,9 @@ public class UserController {
         User user = userServicePort.getByEmail(email).orElseThrow(() -> new Exception("That user does not exists"));
         return new UserOutputDto(user);
     }
-
+    @PutMapping("setProfileImage/{idFile}")
+    public UserOutputDto setProfileImage(@PathVariable("idFile") Integer idFile, Principal principal) throws Exception {
+        User user = userServicePort.setProfileImage(idFile, principal.getName());
+        return new UserOutputDto(user);
+    }
 }

@@ -1,5 +1,6 @@
 package com.javier.srvice.security.domain;
 
+import com.javier.srvice.file.domain.File;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +32,10 @@ public class User {
     @JoinTable(name = "user_rol", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Rol> rols = new HashSet<>();
-    @Column(name="image")
-    private String image;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_file_image", referencedColumnName = "id")
+    private File image;
 
 
     public User(String name, String email, String encode) {

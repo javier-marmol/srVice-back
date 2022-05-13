@@ -1,5 +1,6 @@
 package com.javier.srvice.file.domain;
 
+import com.javier.srvice.security.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,19 @@ public class File {
     @Column(name = "ubication")
     private String ubication;
 
-    public File(String fileName, String downloadLink, String ubication){
+    @Column(name = "original_file_name")
+    private String originalFileName;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_user", referencedColumnName = "id")
+    private User user;
+
+
+    public File(String fileName, String downloadLink, String ubication, String originalFileName, User user){
         this.setFileName(fileName);
         this.setDownloadLink(downloadLink);
         this.setUbication(ubication);
+        this.setOriginalFileName(originalFileName);
+        this.setUser(user);
     }
 }

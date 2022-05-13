@@ -4,6 +4,8 @@ import com.javier.srvice.file.application.port.FileStoragePort;
 import com.javier.srvice.file.domain.File;
 import com.javier.srvice.file.domain.properties.FileStorageProperties;
 import com.javier.srvice.file.infrastructure.repository.FileRepositoryJpa;
+import com.javier.srvice.security.domain.User;
+import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +17,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 public class FileStorageService implements FileStoragePort {
 
     @Autowired
     private FileRepositoryJpa fileRepositoryJpa;
+
+    @Autowired
+    private UserRepositoryJpa userRepositoryJpa;
 
     private final Path fileStorageLocation;
 
@@ -35,21 +41,23 @@ public class FileStorageService implements FileStoragePort {
     }
 
     @Override
-    public File storeFile(MultipartFile file) throws Exception {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    public File storeFile(MultipartFile file, String emailAuth) throws Exception {
+        User user = userRepositoryJpa.findByEmail(emailAuth).orElseThrow(() ->new Exception("That user does not exists"));
+        String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         try{
-            if(fileName.contains("..")) throw new Exception("Sorry! Filename contains invalid path sequence "+ fileName);
+            if(originalFileName.contains("..")) throw new Exception("Sorry! Filename contains invalid path sequence "+ originalFileName);
             if(!checkIfImage(extension)) throw new Exception("It looks like that file it is not an image");
-
+            String fileName = UUID.randomUUID().toString()+"."+extension;
             Path targetLocation =this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(fileName).toUriString();
-            File fileToSave = new File(fileName, fileDownloadUrl,fileStorageLocation.toString());
+
+            String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(fileName).toUriString();
+            File fileToSave = new File(fileName, fileDownloadUrl,fileStorageLocation.toString(), originalFileName, user);
             fileRepositoryJpa.save(fileToSave);
             return fileToSave;
         }catch (Exception e){
-            throw new Exception("Could not store file "+ fileName +". Please try again!", e);
+            throw new Exception("Could not store file "+ originalFileName +". Please try again!", e);
         }
     }
 

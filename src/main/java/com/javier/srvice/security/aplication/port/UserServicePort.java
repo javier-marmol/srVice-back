@@ -16,4 +16,6 @@ public interface UserServicePort {
     User getInfo(Integer idUser);
 
     void makeUserEmployee(User user);
+
+    User setProfileImage(Integer idFile, String emailAuth) throws Exception;
 }
