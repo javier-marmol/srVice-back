@@ -30,7 +30,7 @@ public class File {
     @Column(name = "original_file_name")
     private String originalFileName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private User user;
 

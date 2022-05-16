@@ -26,6 +26,6 @@ public class UserOutputDto {
         this.setName(user.getName());
         this.setEmail(user.getEmail());
         this.setRols(user.getRols());
-        if(user.getImage()!=null) this.setEmail(user.getImage().getDownloadLink());
+        if(user.getImage()!=null) this.setLinkImage(user.getImage().getDownloadLink());
     }
 }

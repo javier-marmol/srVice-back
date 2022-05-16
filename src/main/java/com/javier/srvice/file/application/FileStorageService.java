@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -65,7 +66,6 @@ public class FileStorageService implements FileStoragePort {
     public void deleteFile(Integer idFile) throws Exception {
     File file = fileRepositoryJpa.findById(idFile).orElseThrow(() -> new Exception("That file does not exists"));
         try{
-            if(file.getFileName().contains("..")) throw new Exception("Sorry! Filename contains invalid path sequence "+ file.getFileName());
             Path targetLocation =this.fileStorageLocation.resolve(file.getFileName());
             Files.delete(targetLocation);
             fileRepositoryJpa.delete(file);
@@ -74,6 +74,7 @@ public class FileStorageService implements FileStoragePort {
         }
     }
     public Boolean checkIfImage(String extension){
+        extension = extension.toLowerCase();
         if(extension.equals("jpeg") || extension.equals("jpg") || extension.equals("png")) return true;
         return false;
     }
