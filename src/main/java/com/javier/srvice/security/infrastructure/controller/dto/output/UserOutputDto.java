@@ -19,11 +19,13 @@ public class UserOutputDto {
     private String name;
     private String email;
     private Set<Rol> rols = new HashSet<>();
+    private String linkImage;
 
     public UserOutputDto(User user){
         this.setId(user.getId());
         this.setName(user.getName());
         this.setEmail(user.getEmail());
         this.setRols(user.getRols());
+        if(user.getImage()!=null) this.setLinkImage(user.getImage().getDownloadLink());
     }
 }

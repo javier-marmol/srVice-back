@@ -1,5 +1,8 @@
 package com.javier.srvice.security.aplication;
 
+import com.javier.srvice.file.application.port.FileStoragePort;
+import com.javier.srvice.file.domain.File;
+import com.javier.srvice.file.infrastructure.repository.FileRepositoryJpa;
 import com.javier.srvice.security.aplication.port.RolServicePort;
 import com.javier.srvice.security.aplication.port.UserServicePort;
 import com.javier.srvice.security.domain.Rol;
@@ -22,6 +25,12 @@ public class UserService implements UserServicePort {
 
     @Autowired
     RolServicePort rolServicePort;
+
+    @Autowired
+    private FileStoragePort fileStoragePort;
+
+    @Autowired
+    private FileRepositoryJpa fileRepositoryJpa;
 
     public Optional<User> getByEmail(String email){
         return userRepositoryJpa.findByEmail(email);
@@ -51,5 +60,13 @@ public class UserService implements UserServicePort {
         create(user);
     }
 
-
+    public User setProfileImage(Integer idFile, String emailAuth) throws Exception {
+        User user = userRepositoryJpa.findByEmail(emailAuth).orElseThrow(() -> new Exception("That user does not exists"));
+        File file = fileRepositoryJpa.findById(idFile).orElseThrow(() -> new Exception("That file does not exists"));
+        if(user.getImage()!=null) fileStoragePort.deleteFile(user.getImage().getId());
+        user.setImage(file);
+        userRepositoryJpa.save(user);
+        return user;
+    }
 }
+
