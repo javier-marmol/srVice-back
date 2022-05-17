@@ -1,4 +1,4 @@
-package com.javier.srvice.file.domain.properties;
+package com.javier.srvice.sms.configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,14 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
-@Component
-@ConfigurationProperties(prefix = "file")
+@Configuration
+@ConfigurationProperties("twilio")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class FileStorageProperties {
-    private String uploadDir;
+public class TwilioConfiguration {
+    private String accountSid;
+    private String authToken;
+    private String trialNumber;
 }

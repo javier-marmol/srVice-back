@@ -2,7 +2,7 @@ package com.javier.srvice.file.application;
 
 import com.javier.srvice.file.application.port.FileStoragePort;
 import com.javier.srvice.file.domain.File;
-import com.javier.srvice.file.domain.properties.FileStorageProperties;
+import com.javier.srvice.file.configuration.FileStorageProperties;
 import com.javier.srvice.file.infrastructure.repository.FileRepositoryJpa;
 import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Locale;
 import java.util.UUID;
 
 @Service
