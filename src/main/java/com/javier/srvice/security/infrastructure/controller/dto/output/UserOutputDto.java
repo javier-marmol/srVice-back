@@ -21,6 +21,7 @@ public class UserOutputDto {
     private Set<Rol> rols = new HashSet<>();
     private String linkImage;
 
+
     public UserOutputDto(User user){
         this.setId(user.getId());
         this.setName(user.getName());
