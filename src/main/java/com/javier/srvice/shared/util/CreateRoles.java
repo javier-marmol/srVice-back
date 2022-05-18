@@ -23,7 +23,7 @@ public class CreateRoles implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-       /* Rol rolClient = new Rol();
+        Rol rolClient = new Rol();
         rolClient.setRolName(RolName.ROLE_CLIENT);
         Rol roldAdmin = new Rol();
         roldAdmin.setRolName(RolName.ROLE_ADMIN);
@@ -31,6 +31,6 @@ public class CreateRoles implements CommandLineRunner {
         rolEmployee.setRolName(RolName.ROLE_EMPLOYEE);
         rolService.save(rolEmployee);
         rolService.save(rolClient);
-        rolService.save(roldAdmin); */
+        rolService.save(roldAdmin);
     }
 }
