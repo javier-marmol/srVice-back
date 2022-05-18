@@ -21,10 +21,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, name = "name")
     private String name;
+    @Column(name = "email")
     @NotNull
     private String email;
+    @Column(name = "password")
     @NotNull
     private String password;
     @NotNull
