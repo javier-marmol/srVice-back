@@ -12,7 +12,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(schema = "srvice")
 @Getter
 @Setter
 @AllArgsConstructor
