@@ -16,6 +16,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "user", schema="myschema")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +31,8 @@ public class User {
     @NotNull
     private String password;
     @NotNull
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_rol", joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "rol_id"))
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rol_id")
     private Set<Rol> rols = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
