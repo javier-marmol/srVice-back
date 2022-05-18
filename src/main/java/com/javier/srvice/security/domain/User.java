@@ -31,8 +31,7 @@ public class User {
     @NotNull
     private String password;
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rol_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rol")
     private Set<Rol> rols = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
