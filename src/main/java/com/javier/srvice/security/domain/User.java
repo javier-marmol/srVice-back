@@ -37,11 +37,19 @@ public class User {
     @JoinColumn(name = "id_file_image", referencedColumnName = "id")
     private File image;
 
+    @Column(name = "verified")
+    private Boolean verified;
 
-    public User(String name, String email, String encode) {
+    @Column(name = "phone_number")
+    @NotNull
+    private String phoneNumber;
+
+
+    public User(String name, String email, String encode, String phoneNumber) {
         this.setName(name);
         this.setEmail(email);
         this.setPassword(encode);
+        this.setPhoneNumber(phoneNumber);
     }
 
     public User(String name, String email, String encode, Set<Rol> roles) {
@@ -49,5 +57,6 @@ public class User {
         this.setEmail(email);
         this.setPassword(encode);
         this.setRols(roles);
+
     }
 }

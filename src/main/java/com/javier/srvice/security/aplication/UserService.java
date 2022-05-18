@@ -9,10 +9,13 @@ import com.javier.srvice.security.domain.Rol;
 import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
 import com.javier.srvice.shared.enums.RolName;
+import com.javier.srvice.sms.domain.Sms;
+import com.javier.srvice.sms.infrastructure.infrastructure.SmsRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,6 +34,9 @@ public class UserService implements UserServicePort {
 
     @Autowired
     private FileRepositoryJpa fileRepositoryJpa;
+
+    @Autowired
+    private SmsRepositoryJpa smsRepositoryJpa;
 
     public Optional<User> getByEmail(String email){
         return userRepositoryJpa.findByEmail(email);
@@ -67,6 +73,23 @@ public class UserService implements UserServicePort {
         user.setImage(file);
         userRepositoryJpa.save(user);
         return user;
+    }
+
+    @Override
+    public User verificate(String email, String code) throws Exception {
+        User userToCheck = getByEmail(email).get();
+        if(userToCheck.getVerified()) throw new Exception("You are already verfied");
+        Sms sms = smsRepositoryJpa.findByPhoneNumber(userToCheck.getPhoneNumber());
+        if(sms==null)
+            throw new Exception("First you must send a verification SMS");
+        if(sms.getExpiration().compareTo(new Date())<0)
+            throw new Exception("Your SMS has expired. Try to request another one.");
+        if(!sms.getCode().equals(code))
+            throw new Exception("The verification codes does not match");
+        userToCheck.setVerified(true);
+        User userToReturn = userRepositoryJpa.save(userToCheck);
+        smsRepositoryJpa.delete(sms);
+        return userToReturn;
     }
 }
 

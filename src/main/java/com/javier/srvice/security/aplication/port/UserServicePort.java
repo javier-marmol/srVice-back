@@ -18,4 +18,6 @@ public interface UserServicePort {
     void makeUserEmployee(User user);
 
     User setProfileImage(Integer idFile, String emailAuth) throws Exception;
+
+    User verificate(String email, String code) throws Exception;
 }

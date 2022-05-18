@@ -3,6 +3,8 @@ package com.javier.srvice.security.infrastructure.controller;
 import com.javier.srvice.client.domain.Client;
 import com.javier.srvice.client.infrastructure.repository.ClientRepositoryJpa;
 import com.javier.srvice.security.domain.Rol;
+import com.javier.srvice.security.domain.UsuarioPrincipal;
+import com.javier.srvice.security.infrastructure.controller.dto.output.UserOutputDto;
 import com.javier.srvice.shared.dto.Alert;
 import com.javier.srvice.shared.enums.RolName;
 import com.javier.srvice.security.aplication.port.RolServicePort;
@@ -12,6 +14,8 @@ import com.javier.srvice.security.infrastructure.controller.dto.auth.LoginDto;
 import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.jwt.JwtProvider;
 import com.javier.srvice.security.infrastructure.controller.dto.auth.RegisterDto;
+import com.javier.srvice.sms.domain.Sms;
+import com.javier.srvice.sms.infrastructure.infrastructure.SmsRepositoryJpa;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.io.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,22 +43,22 @@ import java.util.Set;
 public class AuthController {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserServicePort userService;
+    private UserServicePort userService;
 
     @Autowired
-    RolServicePort rolService;
+    private RolServicePort rolService;
 
     @Autowired
-    JwtProvider jwtProvider;
+    private JwtProvider jwtProvider;
 
     @Autowired
-    ClientRepositoryJpa clientRepositoryJpa;
+    private ClientRepositoryJpa clientRepositoryJpa;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterDto registerDto, BindingResult bindingResult){
@@ -62,32 +68,46 @@ public class AuthController {
             return new ResponseEntity(new Alert("That name is already in use"), HttpStatus.BAD_REQUEST);
         if(userService.existsByEmail(registerDto.getEmail()))
             return new ResponseEntity(new Alert("That email is already in use"), HttpStatus.BAD_REQUEST);
-        User usuario =
+        User user =
                 new User(registerDto.getName(), registerDto.getEmail(),
-                        passwordEncoder.encode(registerDto.getPassword()));
+                        passwordEncoder.encode(registerDto.getPassword()), registerDto.getPhoneNumber());
         Set<Rol> roles = new HashSet<>();
         roles.add(rolService.getByRolName(RolName.ROLE_CLIENT).get());
         if(registerDto.getRoles().contains("admin"))
             roles.add(rolService.getByRolName(RolName.ROLE_ADMIN).get());
-        usuario.setRols(roles);
-        userService.create(usuario);
+        user.setRols(roles);
+        user.setVerified(false);
+        userService.create(user);
         Client client = new Client();
-        client.setUser(usuario);
+        client.setUser(user);
         clientRepositoryJpa.save(client);
         return new ResponseEntity(new Alert("saved"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginDto loginUsuario, BindingResult bindingResult){
+    public JwtDto login(@Valid @RequestBody LoginDto loginUsuario, BindingResult bindingResult) throws Exception {
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Alert("Wrong data"), HttpStatus.BAD_REQUEST);
+            throw new Exception("Wrong data");
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getEmail(), loginUsuario.getPassword()));
+        UsuarioPrincipal user = (UsuarioPrincipal) authentication.getPrincipal();
+        User userToCheck = userService.getByEmail(user.getEmail()).get();
+        if(!userToCheck.getVerified()) throw new Exception("You are not verfied");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
         JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-        return new ResponseEntity(jwtDto, HttpStatus.OK);
+        return jwtDto;
     }
 
+    @PutMapping("/verificate/{code}")
+    public UserOutputDto verificate(@RequestBody LoginDto loginDto, BindingResult bindingResult, @PathVariable(name = "code") String code) throws Exception {
+        if(bindingResult.hasErrors())
+            throw new Exception("Wrong data");
+        Authentication authentication =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+        UsuarioPrincipal user = (UsuarioPrincipal) authentication.getPrincipal();
+        User userToReturn = userService.verificate(user.getEmail(), code);
+        return new UserOutputDto(userToReturn);
+    }
 }

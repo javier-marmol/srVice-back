@@ -18,5 +18,7 @@ public class RegisterDto {
     @NotBlank
     private String password;
     private Set<String> roles = new HashSet<>();
+    @NotBlank
+    private String phoneNumber;
 
 }
