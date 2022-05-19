@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "presented_to", schema="myschema")
+@Table(name = "presented_to", schema="public")
 public class PresentedTo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "file", schema="myschema")
+@Table(name = "file", schema="public")
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

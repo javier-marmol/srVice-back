@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "comment", schema="myschema")
+@Table(name = "comment", schema="public")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
