@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class AuthUtil {
     public static void checkAuth(User user, String emailAuth) throws Exception {
-        if(user.getEmail()!= emailAuth && !userAdmin(user)) throw new Exception("You are logged with " + emailAuth + " not with " + user.getEmail() );
+        if(!user.getEmail().equals(emailAuth) && !userAdmin(user)) throw new Exception("You are logged with " + emailAuth + " not with " + user.getEmail() );
     }
     private static Boolean userAdmin(User user){
         Set<Rol> roles = user.getRols();
