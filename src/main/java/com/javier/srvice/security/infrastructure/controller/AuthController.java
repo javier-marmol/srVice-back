@@ -101,13 +101,17 @@ public class AuthController {
     }
 
     @PutMapping("/verificate/{code}")
-    public UserOutputDto verificate(@RequestBody LoginDto loginDto, BindingResult bindingResult, @PathVariable(name = "code") String code) throws Exception {
+    public JwtDto verificate(@RequestBody LoginDto loginDto, BindingResult bindingResult, @PathVariable(name = "code") String code) throws Exception {
         if(bindingResult.hasErrors())
             throw new Exception("Wrong data");
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         UsuarioPrincipal user = (UsuarioPrincipal) authentication.getPrincipal();
         User userToReturn = userService.verificate(user.getEmail(), code);
-        return new UserOutputDto(userToReturn);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtProvider.generateToken(authentication);
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+        return jwtDto;
     }
 }
