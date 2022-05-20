@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user", schema="myschema")
+@Table(name = "rol", schema="public")
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

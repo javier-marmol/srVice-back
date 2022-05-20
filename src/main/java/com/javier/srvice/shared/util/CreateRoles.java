@@ -23,14 +23,20 @@ public class CreateRoles implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Rol rolClient = new Rol();
-        rolClient.setRolName(RolName.ROLE_CLIENT);
-        Rol roldAdmin = new Rol();
-        roldAdmin.setRolName(RolName.ROLE_ADMIN);
-        Rol rolEmployee = new Rol();
-        rolEmployee.setRolName(RolName.ROLE_EMPLOYEE);
-        rolService.save(rolEmployee);
-        rolService.save(rolClient);
-        rolService.save(roldAdmin);
+        if(rolService.getByRolName(RolName.ROLE_CLIENT).isEmpty()) {
+            Rol rolClient = new Rol();
+            rolClient.setRolName(RolName.ROLE_CLIENT);
+            rolService.save(rolClient);
+        }
+        if(rolService.getByRolName(RolName.ROLE_ADMIN).isEmpty()){
+            Rol roldAdmin = new Rol();
+            roldAdmin.setRolName(RolName.ROLE_ADMIN);
+            rolService.save(roldAdmin);
+        }
+        if(rolService.getByRolName(RolName.ROLE_EMPLOYEE).isEmpty()) {
+            Rol rolEmployee = new Rol();
+            rolEmployee.setRolName(RolName.ROLE_EMPLOYEE);
+            rolService.save(rolEmployee);
+        }
     }
 }

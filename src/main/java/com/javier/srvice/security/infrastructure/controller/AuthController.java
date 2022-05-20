@@ -73,8 +73,6 @@ public class AuthController {
                         passwordEncoder.encode(registerDto.getPassword()), registerDto.getPhoneNumber());
         Set<Rol> roles = new HashSet<>();
         roles.add(rolService.getByRolName(RolName.ROLE_CLIENT).get());
-        if(registerDto.getRoles().contains("admin"))
-            roles.add(rolService.getByRolName(RolName.ROLE_ADMIN).get());
         user.setRols(roles);
         user.setVerified(false);
         userService.create(user);

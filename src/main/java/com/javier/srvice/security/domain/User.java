@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user", schema="myschema")
+@Table(name = "user", schema="public")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,6 @@ public class User {
     @Column(name = "password")
     @NotNull
     private String password;
-    @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_rol", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "rol_id"))

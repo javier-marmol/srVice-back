@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "client", schema="myschema")
+@Table(name = "client", schema="public")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
