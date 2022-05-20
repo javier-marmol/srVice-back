@@ -105,7 +105,6 @@ public class AuthController {
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         UsuarioPrincipal user = (UsuarioPrincipal) authentication.getPrincipal();
-        User userToReturn = userService.verificate(user.getEmail(), code);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
