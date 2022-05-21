@@ -53,7 +53,8 @@ public class FileStorageService implements FileStoragePort {
             String fileName = UUID.randomUUID().toString()+"."+extension;
             Path targetLocation =this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(fileName).toUriString();
+            Resource resource = new UrlResource(targetLocation.toUri());
+            String fileDownloadUrl = resource.getURI().getPath();
             File fileToSave = new File(fileName, fileDownloadUrl,fileStorageLocation.toFile().getAbsolutePath(), originalFileName, user);
             fileRepositoryJpa.save(fileToSave);
             return fileToSave;
@@ -73,12 +74,6 @@ public class FileStorageService implements FileStoragePort {
             throw new Exception("Could not find file");
         }
     }
-    public Resource getFile(Integer idFile) throws Exception{
-        File file = fileRepositoryJpa.findById(idFile).orElseThrow(() -> new Exception("That file does not exists"));
-        Path filePath = this.fileStorageLocation.resolve(file.getFileName()).normalize();
-        return new UrlResource(filePath.toUri());
-    }
-
     public Boolean checkIfImage(String extension){
         extension = extension.toLowerCase();
         if(extension.equals("jpeg") || extension.equals("jpg") || extension.equals("png")) return true;

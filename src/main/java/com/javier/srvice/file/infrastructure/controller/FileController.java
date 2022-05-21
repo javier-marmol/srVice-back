@@ -4,7 +4,6 @@ import com.javier.srvice.file.application.port.FileStoragePort;
 import com.javier.srvice.file.domain.File;
 import com.javier.srvice.file.infrastructure.controller.dto.FileOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,9 +28,5 @@ public class FileController {
     public String deleteFile(@PathVariable("idFile")Integer idFile) throws Exception {
         fileStoragePort.deleteFile(idFile);
         return "Deleted file";
-    }
-    @GetMapping("/getFile/{idFile}")
-    public Resource getFile(@PathVariable("idFile") Integer idFile) throws Exception {
-        return fileStoragePort.getFile(idFile);
     }
 }
