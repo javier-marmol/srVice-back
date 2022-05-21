@@ -69,11 +69,7 @@ public class UserService implements UserServicePort {
     public User setProfileImage(Integer idFile, String emailAuth) throws Exception {
         User user = userRepositoryJpa.findByEmail(emailAuth).orElseThrow(() -> new Exception("That user does not exists"));
         File file = fileRepositoryJpa.findById(idFile).orElseThrow(() -> new Exception("That file does not exists"));
-        if(user.getImage()!=null) {
-            user.setImage(null);
-            userRepositoryJpa.save(user);
-            fileStoragePort.deleteFile(user.getImage().getId());
-        }
+        if(user.getImage()!=null) fileStoragePort.deleteFile(user.getImage().getId());
         user.setImage(file);
         userRepositoryJpa.save(user);
         return user;

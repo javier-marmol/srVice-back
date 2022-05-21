@@ -8,8 +8,6 @@ import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,8 +51,8 @@ public class FileStorageService implements FileStoragePort {
             String fileName = UUID.randomUUID().toString()+"."+extension;
             Path targetLocation =this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-            Resource resource = new UrlResource(targetLocation.toUri());
-            String fileDownloadUrl = resource.getURI().getPath();
+
+            String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(fileName).toUriString();
             File fileToSave = new File(fileName, fileDownloadUrl,fileStorageLocation.toFile().getAbsolutePath(), originalFileName, user);
             fileRepositoryJpa.save(fileToSave);
             return fileToSave;
