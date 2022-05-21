@@ -8,6 +8,8 @@ import com.javier.srvice.security.domain.User;
 import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,6 +74,14 @@ public class FileStorageService implements FileStoragePort {
             throw new Exception("Could not find file");
         }
     }
+    @Override
+    public Resource loadElementsAsResource(Integer idFile) throws Exception {
+        File file = fileRepositoryJpa.findById(idFile).orElseThrow(() -> new Exception("That file does not exists"));
+        Path path = this.fileStorageLocation.resolve(file.getFileName()).normalize();
+        Resource resource = new UrlResource(path.toUri());
+        return resource;
+    }
+
     public Boolean checkIfImage(String extension){
         extension = extension.toLowerCase();
         if(extension.equals("jpeg") || extension.equals("jpg") || extension.equals("png")) return true;
