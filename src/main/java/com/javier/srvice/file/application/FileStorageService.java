@@ -68,7 +68,7 @@ public class FileStorageService implements FileStoragePort {
     File file = fileRepositoryJpa.findById(idFile).orElseThrow(() -> new Exception("That file does not exists"));
         try{
             Path targetLocation =this.fileStorageLocation.resolve(file.getFileName());
-            Files.delete(targetLocation);
+            Files.deleteIfExists(targetLocation);
             fileRepositoryJpa.delete(file);
         }catch (Exception e){
             throw new Exception("Could not find file");
