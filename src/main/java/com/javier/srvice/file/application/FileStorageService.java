@@ -53,7 +53,7 @@ public class FileStorageService implements FileStoragePort {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(fileName).toUriString();
-            File fileToSave = new File(fileName, fileDownloadUrl,fileStorageLocation.toString(), originalFileName, user);
+            File fileToSave = new File(fileName, fileDownloadUrl,fileStorageLocation.toFile().getAbsolutePath(), originalFileName, user);
             fileRepositoryJpa.save(fileToSave);
             return fileToSave;
         }catch (Exception e){
