@@ -17,14 +17,14 @@ public class JwtDto {
     private String bearer = "Bearer";
     private String name;
     private String email;
-    private String fileName;
+    private String linkImage;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtDto(String jwt, String username, Collection<? extends GrantedAuthority> authorities, String email, String fileName) {
+    public JwtDto(String jwt, String username, Collection<? extends GrantedAuthority> authorities, String email, String linkImage) {
         this.setToken(jwt);
         this.setName(username);
         this.setAuthorities(authorities);
         this.setEmail(email);
-        this.setFileName(fileName);
+        this.setLinkImage(linkImage);
     }
 }
