@@ -94,7 +94,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(), userToCheck.getName(), userToCheck.getImage()!=null? userToCheck.getImage().getDownloadLink() :"");
+        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(), userToCheck.getName(), userToCheck.getImage()==null? userToCheck.getImage().getDownloadLink() :"");
         return jwtDto;
     }
 
@@ -109,7 +109,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(), userToCheck.getName(), userToCheck.getImage()!=null? userToCheck.getImage().getDownloadLink() :"");
+        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(), userToCheck.getName(), userToCheck.getImage()==null? userToCheck.getImage().getDownloadLink() :"");
         return jwtDto;
     }
 }
