@@ -18,13 +18,15 @@ public class JwtDto {
     private String name;
     private String email;
     private String linkImage;
+    private Integer idUser;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtDto(String jwt, String username, Collection<? extends GrantedAuthority> authorities, String email, String linkImage) {
+    public JwtDto(String jwt, String username, Collection<? extends GrantedAuthority> authorities, String email, String linkImage, Integer idUser) {
         this.setToken(jwt);
         this.setName(username);
         this.setAuthorities(authorities);
         this.setEmail(email);
         this.setLinkImage(linkImage);
+        this.setIdUser(idUser);
     }
 }
