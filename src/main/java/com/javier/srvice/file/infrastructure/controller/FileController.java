@@ -5,6 +5,9 @@ import com.javier.srvice.file.domain.File;
 import com.javier.srvice.file.infrastructure.controller.dto.FileOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,7 +34,10 @@ public class FileController {
         return "Deleted file";
     }
     @GetMapping("/getFile/{idFile}")
-    public Resource getFile(@PathVariable("idFile") Integer idFile) throws Exception {
-        return fileStoragePort.getFile(idFile);
+    public ResponseEntity<Resource> getFile(@PathVariable("idFile") Integer idFile) throws Exception {
+        Resource resource =  fileStoragePort.getFile(idFile);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
     }
 }
