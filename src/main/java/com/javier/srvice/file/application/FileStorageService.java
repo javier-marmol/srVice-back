@@ -54,7 +54,7 @@ public class FileStorageService implements FileStoragePort {
             Path targetLocation =this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/image/").path(fileName).toUriString();
+            String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/getFile/").path(fileName).toUriString();
             File fileToSave = new File(fileName, fileDownloadUrl,fileStorageLocation.toString(), originalFileName, user);
             fileRepositoryJpa.save(fileToSave);
             return fileToSave;
@@ -75,9 +75,8 @@ public class FileStorageService implements FileStoragePort {
         }
     }
     @Override
-    public Resource loadElementsAsResource(Integer idFile) throws Exception {
-        File file = fileRepositoryJpa.findById(idFile).orElseThrow(() -> new Exception("That file does not exists"));
-        Path path = this.fileStorageLocation.resolve(file.getFileName()).normalize();
+    public Resource loadElementsAsResource(String fileName) throws Exception {
+        Path path = this.fileStorageLocation.resolve(fileName).normalize();
         Resource resource = new UrlResource(path.toUri());
         return resource;
     }

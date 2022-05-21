@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FileStoragePort {
     File storeFile(MultipartFile file, String emailAuth) throws Exception;
     void deleteFile(Integer idFile) throws Exception;
-    Resource loadElementsAsResource(Integer idFile) throws Exception ;
+    Resource loadElementsAsResource(String idFile) throws Exception ;
 }

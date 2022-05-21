@@ -33,9 +33,9 @@ public class FileController {
         fileStoragePort.deleteFile(idFile);
         return "Deleted file";
     }
-    @GetMapping("/getFile/{idFile}")
-    public ResponseEntity<Resource> getFile(@PathVariable("idFile") Integer idFile) throws Exception {
-        Resource resource = fileStoragePort.loadElementsAsResource(idFile);
+    @GetMapping("/getFile/{fileName}")
+    public ResponseEntity<Resource> getFile(@PathVariable("fileName") String fileName) throws Exception {
+        Resource resource = fileStoragePort.loadElementsAsResource(fileName);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
