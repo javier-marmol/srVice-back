@@ -20,4 +20,6 @@ public interface UserServicePort {
     User setProfileImage(Integer idFile, String emailAuth) throws Exception;
 
     User verificate(String email, String code) throws Exception;
+
+    User getByEmployee(Integer idEmployee) throws Exception;
 }

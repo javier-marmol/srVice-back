@@ -1,5 +1,7 @@
 package com.javier.srvice.security.aplication;
 
+import com.javier.srvice.employee.domain.Employee;
+import com.javier.srvice.employee.infrastructure.repository.EmployeeRepositoryJpa;
 import com.javier.srvice.file.application.port.FileStoragePort;
 import com.javier.srvice.file.domain.File;
 import com.javier.srvice.file.infrastructure.repository.FileRepositoryJpa;
@@ -37,6 +39,9 @@ public class UserService implements UserServicePort {
 
     @Autowired
     private SmsRepositoryJpa smsRepositoryJpa;
+
+    @Autowired
+    private EmployeeRepositoryJpa employeeRepositoryJpa;
 
     public Optional<User> getByEmail(String email){
         return userRepositoryJpa.findByEmail(email);
@@ -90,6 +95,12 @@ public class UserService implements UserServicePort {
         User userToReturn = userRepositoryJpa.save(userToCheck);
         smsRepositoryJpa.delete(sms);
         return userToReturn;
+    }
+
+    @Override
+    public User getByEmployee(Integer idEmployee) throws Exception {
+        Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(()-> new Exception("That employee does not exists."));
+        return employee.getUser();
     }
 }
 

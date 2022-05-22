@@ -29,4 +29,9 @@ public class UserController {
         User user = userServicePort.setProfileImage(idFile, principal.getName());
         return new UserOutputDto(user);
     }
+    @GetMapping("getUserByEmployee/{idEmployee}")
+    public UserOutputDto getUserByEmployee(@PathVariable("idEmployee") Integer idEmployee) throws Exception {
+        User user = userServicePort.getByEmployee(idEmployee);
+        return new UserOutputDto();
+    }
 }
