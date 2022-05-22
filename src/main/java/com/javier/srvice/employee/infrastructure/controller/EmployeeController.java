@@ -28,4 +28,10 @@ public class EmployeeController {
         userServicePort.makeUserEmployee(employeeSaved.getUser());
         return employeeOutputDto;
     }
+
+    @GetMapping("getLoggedEmployee")
+    public EmployeeOutputDto getLoggedEmployee(Principal principal) throws Exception {
+        Employee employee = employeeServicePort.getLoggedEmployee(principal.getName());
+        return new EmployeeOutputDto(employee);
+    }
 }

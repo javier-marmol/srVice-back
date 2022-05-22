@@ -3,6 +3,7 @@ package com.javier.srvice.employee.application;
 import com.javier.srvice.employee.domain.Employee;
 import com.javier.srvice.employee.application.port.EmployeeServicePort;
 import com.javier.srvice.employee.infrastructure.controller.dto.input.EmployeeInputDto;
+import com.javier.srvice.employee.infrastructure.controller.dto.output.EmployeeOutputDto;
 import com.javier.srvice.employee.infrastructure.repository.EmployeeRepositoryJpa;
 import com.javier.srvice.security.aplication.port.RolServicePort;
 import com.javier.srvice.security.domain.User;
@@ -31,5 +32,12 @@ public class EmployeeService implements EmployeeServicePort {
         employee.setUser(user);
         Employee employeeToReturn = employeeRepositoryJpa.save(employee);
         return employeeToReturn;
+    }
+
+    @Override
+    public Employee getLoggedEmployee(String emailAuth) throws Exception {
+        User user = userRepositoryJpa.findByEmail(emailAuth).orElseThrow(()->new Exception("That user does not exists"));
+        Employee employee = employeeRepositoryJpa.findByUser(user).orElseThrow(()->new Exception("That user looks like is not an employee"));
+        return employee;
     }
 }
