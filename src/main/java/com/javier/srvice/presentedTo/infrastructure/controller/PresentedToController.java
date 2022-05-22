@@ -4,6 +4,7 @@ import com.javier.srvice.presentedTo.application.port.PresentedToServicePort;
 import com.javier.srvice.presentedTo.domain.PresentedTo;
 import com.javier.srvice.presentedTo.infrastructure.controller.dto.input.PresentedToInputDto;
 import com.javier.srvice.presentedTo.infrastructure.controller.dto.output.PresentedToOutputDto;
+import com.javier.srvice.presentedTo.infrastructure.controller.dto.output.SimplePresentedToOutputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,9 @@ public class PresentedToController {
         return new PresentedToOutputDto(presentedTo);
     }
     @GetMapping("/{idJob}")
-    public List<PresentedToOutputDto> getByJob(@PathVariable("idJob") Integer idJob) throws Exception {
+    public List<SimplePresentedToOutputDto> getByJob(@PathVariable("idJob") Integer idJob) throws Exception {
         List<PresentedTo> presentedTos = presentedToServicePort.getByJob(idJob);
-        return presentedTos.stream().map(PresentedToOutputDto::new).collect(Collectors.toList());
+        return presentedTos.stream().map(SimplePresentedToOutputDto::new).collect(Collectors.toList());
     }
     @PutMapping("/{idJob}/selectCandidate/{idEmployee}")
     public PresentedToOutputDto selectCandidate(@PathVariable("idJob") Integer idJob, @PathVariable("idEmployee") Integer idEmployee, Principal principal) throws Exception {
