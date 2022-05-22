@@ -58,7 +58,7 @@ public class JobController {
         return new JobOutputDto(job);
     }
     @GetMapping("/findByCity/{city}")
-    public List<JobOutputDto> findByCity(@PathVariable("idcity") String city){
+    public List<JobOutputDto> findByCity(@PathVariable("city") String city){
         List<Job> jobs = jobServicePort.findByCity(city);
         List<JobOutputDto> jobsToReturn = jobs.stream().map(JobOutputDto::new).collect(Collectors.toList());
         return jobsToReturn;
