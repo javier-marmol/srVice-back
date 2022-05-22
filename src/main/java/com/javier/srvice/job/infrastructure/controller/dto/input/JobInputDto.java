@@ -26,4 +26,6 @@ public class JobInputDto {
     private String city;
 
     private String description;
+
+    private Integer idFile;
 }

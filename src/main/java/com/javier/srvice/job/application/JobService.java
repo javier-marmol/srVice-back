@@ -2,6 +2,8 @@ package com.javier.srvice.job.application;
 
 import com.javier.srvice.client.domain.Client;
 import com.javier.srvice.client.infrastructure.repository.ClientRepositoryJpa;
+import com.javier.srvice.file.domain.File;
+import com.javier.srvice.file.infrastructure.repository.FileRepositoryJpa;
 import com.javier.srvice.job.application.port.JobServicePort;
 import com.javier.srvice.job.domain.Job;
 import com.javier.srvice.job.infrastructure.controller.dto.input.JobInputDto;
@@ -27,10 +29,15 @@ public class JobService implements JobServicePort {
     @Autowired
     private ClientRepositoryJpa clientRepositoryJpa;
 
+    @Autowired
+    private FileRepositoryJpa fileRepositoryJpa;
+
     public Job create(JobInputDto jobInputDto, String emailAuth) throws Exception, ELException {
         Job job = new Job(jobInputDto);
         Client client = clientRepositoryJpa.findById(jobInputDto.getIdClient()).orElseThrow(() -> new Exception("That client does not exists"));
+        File file = fileRepositoryJpa.findById(jobInputDto.getIdFile()).orElseThrow(() -> new Exception("That file does not exists"));
         AuthUtil.checkAuth(client.getUser(), emailAuth);
+        if(client.getUser().getId()!=file.getUser().getId()) throw new Exception("You are not the owner of the file");
         job.setClient(client);
         jobRepositoryJpa.save(job);
         return job;

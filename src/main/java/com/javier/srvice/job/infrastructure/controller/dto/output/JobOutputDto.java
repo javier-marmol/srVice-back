@@ -25,6 +25,8 @@ public class JobOutputDto {
 
     private String description;
 
+    private String linkImage;
+
     public JobOutputDto(Job job){
         this.setId(job.getId());
         this.setName(job.getName());
@@ -35,5 +37,6 @@ public class JobOutputDto {
         this.setInProgress(job.getInProgress());
         this.setCity(job.getCity());
         this.setDescription(job.getDescription());
+        if(job.getJogImage()!=null) this.setLinkImage(job.getJogImage().getDownloadLink());
     }
 }

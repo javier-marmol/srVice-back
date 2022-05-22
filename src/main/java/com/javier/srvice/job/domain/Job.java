@@ -1,6 +1,7 @@
 package com.javier.srvice.job.domain;
 
 import com.javier.srvice.client.domain.Client;
+import com.javier.srvice.file.domain.File;
 import com.javier.srvice.job.infrastructure.controller.dto.input.JobInputDto;
 import com.javier.srvice.presentedTo.domain.PresentedTo;
 import lombok.AllArgsConstructor;
@@ -58,6 +59,9 @@ public class Job {
 
     @Column(name = "employee_declare_as_finished")
     private Boolean employeeDeclareAsFinished;
+
+    @Column(name="job_image")
+    private File jogImage;
 
     public Job(JobInputDto jobInputDto){
         this.setPrice(jobInputDto.getPrice());
