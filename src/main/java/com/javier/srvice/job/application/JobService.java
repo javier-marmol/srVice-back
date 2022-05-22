@@ -41,7 +41,10 @@ public class JobService implements JobServicePort {
     public Job create(JobInputDto jobInputDto, String emailAuth) throws Exception, ELException {
         Job job = new Job(jobInputDto);
         Client client = clientRepositoryJpa.findById(jobInputDto.getIdClient()).orElseThrow(() -> new Exception("That client does not exists"));
-        File file = fileRepositoryJpa.findById(jobInputDto.getIdFile()).orElseThrow(() -> new Exception("That file does not exists"));
+        File file = null;
+        if(jobInputDto.getIdFile()!=null){
+            file = fileRepositoryJpa.findById(jobInputDto.getIdFile()).orElseThrow(() -> new Exception("That file does not exists"));
+        }
         AuthUtil.checkAuth(client.getUser(), emailAuth);
         job.setJogImage(file);
         if(client.getUser().getId()!=file.getUser().getId()) throw new Exception("You are not the owner of the file");
@@ -54,7 +57,10 @@ public class JobService implements JobServicePort {
     public Job update(JobInputDto jobInputDto, Integer id, String emailAuth) throws Exception {
         Job job = new Job(jobInputDto);
         Client client = clientRepositoryJpa.findById(jobInputDto.getIdClient()).orElseThrow(() -> new Exception("That client does not exists"));
-        File file = fileRepositoryJpa.findById(jobInputDto.getIdFile()).orElseThrow(() -> new Exception("That file does not exists"));
+        File file = null;
+        if(jobInputDto.getIdFile()!=null){
+            file = fileRepositoryJpa.findById(jobInputDto.getIdFile()).orElseThrow(() -> new Exception("That file does not exists"));
+        }
         job.setJogImage(file);
         job.setClient(client);
         AuthUtil.checkAuth(client.getUser(), emailAuth);
