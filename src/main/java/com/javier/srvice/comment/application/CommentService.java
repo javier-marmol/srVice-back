@@ -44,7 +44,7 @@ public class CommentService implements CommentServicePort {
         User commenter = userRepositoryJpa.findById(commentInputDto.getIdUserCommenter()).orElseThrow(() -> new Exception("That user does not exists"));
         AuthUtil.checkAuth(commenter, emailAuth);
         checkIfAlreadyCommented(commentInputDto, job);
-        if(job.getInProgress()||job.getSearchingCandidate() || !job.getClientDeclareAsFinished() || !job.getEmployeeDeclareAsFinished()) throw new Exception("Cannot comment if the job is not finished yet");
+        if(job.getInProgress()||job.getSearchingCandidate()) throw new Exception("Cannot comment if the job is not finished yet");
         Comment comment = new Comment(commentInputDto);
         User commented = userRepositoryJpa.findById(commentInputDto.getIdUserCommented()).orElseThrow(() -> new Exception("That user does not exists"));
         comment.setUserCommenter(commenter);
