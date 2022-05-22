@@ -12,6 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Getter
@@ -72,7 +73,7 @@ public class Job {
         this.setInProgress(jobInputDto.getInProgress());
         this.setClientDeclareAsFinished(false);
         this.setEmployeeDeclareAsFinished(false);
-        this.setCity(jobInputDto.getCity());
+        this.setCity(jobInputDto.getCity().toLowerCase());
         this.setDescription(jobInputDto.getDescription());
     }
 }
