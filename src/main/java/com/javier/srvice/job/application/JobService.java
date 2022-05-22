@@ -54,6 +54,8 @@ public class JobService implements JobServicePort {
     public Job update(JobInputDto jobInputDto, Integer id, String emailAuth) throws Exception {
         Job job = new Job(jobInputDto);
         Client client = clientRepositoryJpa.findById(jobInputDto.getIdClient()).orElseThrow(() -> new Exception("That client does not exists"));
+        File file = fileRepositoryJpa.findById(jobInputDto.getIdFile()).orElseThrow(() -> new Exception("That file does not exists"));
+        job.setJogImage(file);
         job.setClient(client);
         AuthUtil.checkAuth(client.getUser(), emailAuth);
         job.setId(id);
