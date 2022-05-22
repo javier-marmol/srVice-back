@@ -46,6 +46,6 @@ public class JobOutputDto {
         this.setCity(job.getCity());
         this.setDescription(job.getDescription());
         if(job.getJogImage()!=null) this.setLinkImage(job.getJogImage().getDownloadLink());
-        this.setCandidates(job.getCandidates().stream().map(SimplePresentedToOutputDto::new).collect(Collectors.toList()));
+        if(job.getCandidates()!=null && !job.getCandidates().isEmpty()) this.setCandidates(job.getCandidates().stream().map(SimplePresentedToOutputDto::new).collect(Collectors.toList()));
     }
 }
