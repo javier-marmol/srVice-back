@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface JobServicePort {
     Job create(JobInputDto jobInputDto, String emailAuth) throws Exception;
-    Job update(Job job, Integer id, String emailAuth) throws Exception;
+    Job update(JobInputDto job, Integer id, String emailAuth) throws Exception;
     List<Job> findAll();
     Job findById(Integer id) throws Exception;
     void delete(Integer id, String emailAuth) throws Exception;

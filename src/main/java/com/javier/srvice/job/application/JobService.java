@@ -2,6 +2,8 @@ package com.javier.srvice.job.application;
 
 import com.javier.srvice.client.domain.Client;
 import com.javier.srvice.client.infrastructure.repository.ClientRepositoryJpa;
+import com.javier.srvice.employee.domain.Employee;
+import com.javier.srvice.employee.infrastructure.repository.EmployeeRepositoryJpa;
 import com.javier.srvice.file.domain.File;
 import com.javier.srvice.file.infrastructure.repository.FileRepositoryJpa;
 import com.javier.srvice.job.application.port.JobServicePort;
@@ -49,8 +51,11 @@ public class JobService implements JobServicePort {
     }
 
 
-    public Job update(Job job, Integer id, String emailAuth) throws Exception {
-        AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
+    public Job update(JobInputDto jobInputDto, Integer id, String emailAuth) throws Exception {
+        Job job = new Job(jobInputDto);
+        Client client = clientRepositoryJpa.findById(jobInputDto.getIdClient()).orElseThrow(() -> new Exception("That client does not exists"));
+        job.setClient(client);
+        AuthUtil.checkAuth(client.getUser(), emailAuth);
         job.setId(id);
         jobRepositoryJpa.save(job);
         return job;

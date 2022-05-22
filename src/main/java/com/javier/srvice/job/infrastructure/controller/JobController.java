@@ -28,7 +28,7 @@ public class JobController {
 
     @PutMapping("/update/{id}")
     public JobOutputDto update(@RequestBody JobInputDto jobInputDto, @PathVariable("id") Integer id, Principal principal) throws Exception {
-        Job job = jobServicePort.update(new Job(jobInputDto), id, principal.getName());
+        Job job = jobServicePort.update(jobInputDto, id, principal.getName());
         return new JobOutputDto(job);
     }
     @GetMapping("/findAll")
