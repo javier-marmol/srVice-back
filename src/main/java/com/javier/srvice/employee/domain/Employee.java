@@ -37,6 +37,6 @@ public class Employee {
 
     public Employee(EmployeeInputDto employeeInputDto){
         this.setCif(employeeInputDto.getCif());
-        this.setCity(employeeInputDto.getCity());
+        this.setCity(employeeInputDto.getCity().toLowerCase());
     }
 }
