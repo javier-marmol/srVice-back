@@ -111,4 +111,11 @@ public class JobService implements JobServicePort {
         List<Job> jobs = jobRepositoryJpa.findBySearchingCandidateTrueAndCity(city);
         return jobs.stream().filter(e -> e.getClient().getUser().getId()!=user.getId()).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Job> findByClient(Integer idClient, String emailAuth) throws Exception {
+        Client client = clientRepositoryJpa.findById(idClient).orElseThrow(()-> new Exception("That client does not exists"));
+        AuthUtil.checkAuth(client.getUser(), emailAuth);
+        return client.getJobs();
+    }
 }

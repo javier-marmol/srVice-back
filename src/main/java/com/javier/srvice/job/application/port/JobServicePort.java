@@ -15,4 +15,5 @@ public interface JobServicePort {
     Job clientDefineAsFinished(Integer idJob, String emailAuth) throws Exception;
     Job employeeDefineAsFinished(Integer idJob, String emailAuth) throws Exception;
     List<Job> findByCity(String city, String emailAuth) throws Exception;
+    List<Job> findByClient(Integer idClient, String emailAuth) throws Exception;
 }

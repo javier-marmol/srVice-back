@@ -63,4 +63,9 @@ public class JobController {
         List<JobOutputDto> jobsToReturn = jobs.stream().map(JobOutputDto::new).collect(Collectors.toList());
         return jobsToReturn;
     }
+    @GetMapping("findByClient/{idClient}")
+    public List<JobOutputDto> findByClient(@PathVariable("idClient") Integer idClient, Principal principal) throws Exception {
+        List<Job> jobs = jobServicePort.findByClient(idClient, principal.getName());
+        return jobs.stream().map(JobOutputDto::new).collect(Collectors.toList());
+    }
 }
