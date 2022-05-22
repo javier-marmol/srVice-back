@@ -60,7 +60,8 @@ public class Job {
     @Column(name = "employee_declare_as_finished")
     private Boolean employeeDeclareAsFinished;
 
-    @Column(name="job_image")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_file_image", referencedColumnName = "id")
     private File jogImage;
 
     public Job(JobInputDto jobInputDto){
