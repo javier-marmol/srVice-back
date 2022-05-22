@@ -12,6 +12,8 @@ import com.javier.srvice.shared.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PresentedToService implements PresentedToServicePort {
 
@@ -30,6 +32,8 @@ public class PresentedToService implements PresentedToServicePort {
         PresentedTo presentedTo = new PresentedTo(presentedToInputDto);
         Job job = jobRepositoryJpa.findById(presentedToInputDto.getIdJob()).orElseThrow(() -> new Exception("Cannot present to a job that doesn't exist"));
         Employee employee = employeeRepositoryJpa.findById(presentedToInputDto.getIdEmployee()).orElseThrow(() -> new Exception("Cannot present to a job if you are not an employee"));
+        Optional<PresentedTo> alreadyPresented = presentedToRepositoryJpa.findByEmployee(employee);
+        if(alreadyPresented.get()!=null) throw new Exception("Cannot present to a job that you are already presented to");
         AuthUtil.checkAuth(employee.getUser(),emailAuth);
         if(job.getInProgress()==true) throw new Exception("Cannot present to a job that is already in progress");
         if(job.getSearchingCandidate()!=true) throw new Exception("Cannot present to a job that is not searching for candidates");

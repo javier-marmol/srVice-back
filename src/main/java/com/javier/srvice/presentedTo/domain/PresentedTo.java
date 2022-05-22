@@ -21,9 +21,6 @@ public class PresentedTo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="suggested_price")
-    private Double suggestedPrice;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee", referencedColumnName = "id")
     private Employee employee;
@@ -39,7 +36,6 @@ public class PresentedTo {
     private Boolean favourite;
 
     public PresentedTo(PresentedToInputDto presentedToInputDto){
-        this.setSuggestedPrice(presentedToInputDto.getSuggestedPrice());
         this.setFavourite(false);
         this.setSelected(false);
     }

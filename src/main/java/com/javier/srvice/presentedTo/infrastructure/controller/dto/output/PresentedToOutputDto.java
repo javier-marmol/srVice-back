@@ -14,7 +14,6 @@ import lombok.Setter;
 @Setter
 public class PresentedToOutputDto {
     private Integer id;
-    private Double suggestedPrice;
     private EmployeeOutputDto employeeOutputDto;
     private JobOutputDto jobOutputDto;
 
@@ -22,6 +21,5 @@ public class PresentedToOutputDto {
         this.setId(candidate.getId());
         this.setEmployeeOutputDto(new EmployeeOutputDto(candidate.getEmployee()));
         this.setJobOutputDto(new JobOutputDto(candidate.getJob()));
-        this.setSuggestedPrice(candidate.getSuggestedPrice());
     }
 }

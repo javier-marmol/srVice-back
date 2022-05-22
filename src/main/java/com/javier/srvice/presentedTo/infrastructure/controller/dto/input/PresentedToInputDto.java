@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PresentedToInputDto {
-    private Double suggestedPrice;
     private Integer idEmployee;
     private Integer idJob;
 }
