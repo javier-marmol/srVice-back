@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,14 @@ public class Job {
     @Column(name = "in_progress")
     private Boolean inProgress;
 
+    @Column(name = "description")
+    @NotNull
+    private String description;
+
+    @Column(name = "city")
+    @NotNull
+    private String city;
+
     @ManyToOne
     @JoinColumn(name = "client")
     private Client client;
@@ -58,5 +67,7 @@ public class Job {
         this.setInProgress(jobInputDto.getInProgress());
         this.setClientDeclareAsFinished(false);
         this.setEmployeeDeclareAsFinished(false);
+        this.setCity(jobInputDto.getCity());
+        this.setDescription(jobInputDto.getDescription());
     }
 }

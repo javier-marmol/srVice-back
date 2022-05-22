@@ -12,4 +12,5 @@ import lombok.Setter;
 public class EmployeeInputDto {
     private String cif;
     private Integer idUser;
+    private String city;
 }

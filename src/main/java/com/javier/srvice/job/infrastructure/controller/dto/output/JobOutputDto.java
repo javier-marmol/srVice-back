@@ -21,6 +21,10 @@ public class JobOutputDto {
 
     private Boolean inProgress;
 
+    private String city;
+
+    private String description;
+
     public JobOutputDto(Job job){
         this.setId(job.getId());
         this.setName(job.getName());
@@ -29,5 +33,7 @@ public class JobOutputDto {
         this.setSearchingCandidate(job.getSearchingCandidate());
         if(job.getClient()!=null)this.setIdClient(job.getClient().getId());
         this.setInProgress(job.getInProgress());
+        this.setCity(job.getCity());
+        this.setDescription(job.getDescription());
     }
 }

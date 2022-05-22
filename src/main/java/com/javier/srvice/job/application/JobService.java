@@ -50,9 +50,8 @@ public class JobService implements JobServicePort {
 
 
     public Job findById(Integer id) throws Exception {
-        Optional<Job> jobOptional = jobRepositoryJpa.findById(id);
-        if(jobOptional.isEmpty()) throw new Exception("That job doesn't exists");
-        return jobOptional.get();
+        Job job = jobRepositoryJpa.findById(id).orElseThrow(() -> new Exception("That job doesn't exists"));
+        return job;
     }
 
     public void delete(Integer id, String emailAuth) throws Exception {
@@ -79,5 +78,10 @@ public class JobService implements JobServicePort {
         if(job.getClientDeclareAsFinished() && job.getEmployeeDeclareAsFinished()) job.setInProgress(false);
         jobRepositoryJpa.save(job);
         return job;
+    }
+
+    @Override
+    public List<Job> findByCity(String city) {
+        return jobRepositoryJpa.findBySearchingCandidateTrueAndCity(city);
     }
 }

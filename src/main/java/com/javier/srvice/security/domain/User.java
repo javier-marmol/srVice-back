@@ -46,7 +46,6 @@ public class User {
     @NotNull
     private String phoneNumber;
 
-
     public User(String name, String email, String encode, String phoneNumber) {
         this.setName(name);
         this.setEmail(email);

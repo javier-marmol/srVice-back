@@ -14,10 +14,12 @@ public class EmployeeOutputDto {
     private Integer id;
     private String cif;
     private Integer idUser;
+    private String city;
 
     public EmployeeOutputDto(Employee employee){
         this.setId(employee.getId());
         this.setCif(employee.getCif());
         this.setIdUser(employee.getUser().getId());
+        this.setCity(employee.getCity());
     }
 }

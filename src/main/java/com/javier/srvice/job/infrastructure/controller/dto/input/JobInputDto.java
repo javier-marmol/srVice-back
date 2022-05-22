@@ -22,4 +22,8 @@ public class JobInputDto {
     private Integer idClient;
 
     private Boolean inProgress=false;
+
+    private String city;
+
+    private String description;
 }

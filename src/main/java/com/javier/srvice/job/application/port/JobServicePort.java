@@ -14,4 +14,5 @@ public interface JobServicePort {
     void delete(Integer id, String emailAuth) throws Exception;
     Job clientDefineAsFinished(Integer idJob, String emailAuth) throws Exception;
     Job employeeDefineAsFinished(Integer idJob, String emailAuth) throws Exception;
+    List<Job> findByCity(String city);
 }
