@@ -90,7 +90,7 @@ public class JobService implements JobServicePort {
         AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
         if(!job.getInProgress() || job.getSearchingCandidate()) throw new Exception("Can't declare as finished a job that has not started");
         job.setClientDeclareAsFinished(true);
-        if(job.getClientDeclareAsFinished() && job.getEmployeeDeclareAsFinished()) job.setInProgress(false);
+        if(job.getClientDeclareAsFinished()) job.setInProgress(false);
         jobRepositoryJpa.save(job);
         return job;
     }
@@ -100,7 +100,7 @@ public class JobService implements JobServicePort {
         PresentedTo presentedTo = job.getCandidates().stream().filter(candidate -> candidate.getSelected()).findFirst().get();
         AuthUtil.checkAuth(presentedTo.getEmployee().getUser(), emailAuth);
         job.setEmployeeDeclareAsFinished(true);
-        if(job.getClientDeclareAsFinished() && job.getEmployeeDeclareAsFinished()) job.setInProgress(false);
+        if(job.getEmployeeDeclareAsFinished()) job.setInProgress(false);
         jobRepositoryJpa.save(job);
         return job;
     }
