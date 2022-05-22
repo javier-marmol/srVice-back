@@ -9,6 +9,8 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/presentedTo")
@@ -22,6 +24,11 @@ public class PresentedToController {
     public PresentedToOutputDto present(@RequestBody PresentedToInputDto presentedToInputDto, Principal principal) throws Exception {
         PresentedTo presentedTo = presentedToServicePort.presentTo(presentedToInputDto, principal.getName());
         return new PresentedToOutputDto(presentedTo);
+    }
+    @GetMapping("/{idJob}")
+    public List<PresentedToOutputDto> getByJob(@PathVariable("idJob") Integer idJob) throws Exception {
+        List<PresentedTo> presentedTos = presentedToServicePort.getByJob(idJob);
+        return presentedTos.stream().map(PresentedToOutputDto::new).collect(Collectors.toList());
     }
     @PutMapping("/{idJob}/selectCandidate/{idEmployee}")
     public PresentedToOutputDto selectCandidate(@PathVariable("idJob") Integer idJob, @PathVariable("idEmployee") Integer idEmployee, Principal principal) throws Exception {

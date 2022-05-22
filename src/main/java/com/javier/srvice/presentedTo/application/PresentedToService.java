@@ -1,5 +1,6 @@
 package com.javier.srvice.presentedTo.application;
 
+import com.javier.srvice.client.domain.Client;
 import com.javier.srvice.employee.domain.Employee;
 import com.javier.srvice.employee.infrastructure.repository.EmployeeRepositoryJpa;
 import com.javier.srvice.job.domain.Job;
@@ -12,6 +13,7 @@ import com.javier.srvice.shared.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -75,6 +77,12 @@ public class PresentedToService implements PresentedToServicePort {
         presentedTo.setFavourite(false);
         presentedToRepositoryJpa.save(presentedTo);
         return presentedTo;
+    }
+
+    @Override
+    public List<PresentedTo> getByJob(Integer idJob) throws Exception {
+        Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
+        return job.getCandidates();
     }
 }
 
