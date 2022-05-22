@@ -58,8 +58,8 @@ public class JobController {
         return new JobOutputDto(job);
     }
     @GetMapping("/findByCity/{city}")
-    public List<JobOutputDto> findByCity(@PathVariable("city") String city){
-        List<Job> jobs = jobServicePort.findByCity(city);
+    public List<JobOutputDto> findByCity(@PathVariable("city") String city, Principal principal) throws Exception {
+        List<Job> jobs = jobServicePort.findByCity(city, principal.getName());
         List<JobOutputDto> jobsToReturn = jobs.stream().map(JobOutputDto::new).collect(Collectors.toList());
         return jobsToReturn;
     }

@@ -10,6 +10,7 @@ import com.javier.srvice.job.infrastructure.controller.dto.input.JobInputDto;
 import com.javier.srvice.job.infrastructure.repository.JobRepositoryJpa;
 import com.javier.srvice.presentedTo.domain.PresentedTo;
 import com.javier.srvice.security.domain.User;
+import com.javier.srvice.security.infrastructure.repository.UserRepositoryJpa;
 import com.javier.srvice.shared.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class JobService implements JobServicePort {
 
     @Autowired
     private ClientRepositoryJpa clientRepositoryJpa;
+
+    @Autowired
+    private UserRepositoryJpa userRepositoryJpa;
 
     @Autowired
     private FileRepositoryJpa fileRepositoryJpa;
@@ -88,7 +92,9 @@ public class JobService implements JobServicePort {
     }
 
     @Override
-    public List<Job> findByCity(String city) {
-        return jobRepositoryJpa.findBySearchingCandidateTrueAndCity(city);
+    public List<Job> findByCity(String city, String emailAuth) throws Exception {
+        User user = userRepositoryJpa.findByEmail(emailAuth).orElseThrow(() -> new Exception("That user does not exists"));
+        List<Job> jobs = jobRepositoryJpa.findBySearchingCandidateTrueAndCity(city);
+        return jobs.stream().filter(e -> e.getClient().getUser().getId()!=user.getId()).collect(Collectors.toList());
     }
 }
