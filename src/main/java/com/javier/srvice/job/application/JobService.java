@@ -41,6 +41,7 @@ public class JobService implements JobServicePort {
         Client client = clientRepositoryJpa.findById(jobInputDto.getIdClient()).orElseThrow(() -> new Exception("That client does not exists"));
         File file = fileRepositoryJpa.findById(jobInputDto.getIdFile()).orElseThrow(() -> new Exception("That file does not exists"));
         AuthUtil.checkAuth(client.getUser(), emailAuth);
+        job.setJogImage(file);
         if(client.getUser().getId()!=file.getUser().getId()) throw new Exception("You are not the owner of the file");
         job.setClient(client);
         jobRepositoryJpa.save(job);
