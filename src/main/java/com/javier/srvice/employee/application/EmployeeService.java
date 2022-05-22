@@ -40,4 +40,14 @@ public class EmployeeService implements EmployeeServicePort {
         Employee employee = employeeRepositoryJpa.findByUser(user).orElseThrow(()->new Exception("That user looks like is not an employee"));
         return employee;
     }
+
+    @Override
+    public Employee updateCity(String city, String emailAuth) throws Exception {
+        User user = userRepositoryJpa.findByEmail(emailAuth).orElseThrow(() -> new Exception("That user does not exists"));
+        Employee employee = employeeRepositoryJpa.findByUser(user).orElse(null);
+        if(employee==null) throw new Exception("You are not an employee");
+        employee.setCity(city);
+        employeeRepositoryJpa.save(employee);
+        return employee;
+    }
 }

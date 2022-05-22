@@ -7,4 +7,5 @@ import com.javier.srvice.employee.infrastructure.controller.dto.output.EmployeeO
 public interface EmployeeServicePort {
     Employee create(EmployeeInputDto employeeInputDto, String emailAuth) throws Exception;
     Employee getLoggedEmployee(String emailAuth) throws Exception;
+    Employee updateCity(String city, String emailAuth) throws Exception;
 }

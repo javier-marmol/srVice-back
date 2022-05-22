@@ -34,4 +34,9 @@ public class EmployeeController {
         Employee employee = employeeServicePort.getLoggedEmployee(principal.getName());
         return new EmployeeOutputDto(employee);
     }
+    @PutMapping("updateCity/{city}")
+    public EmployeeOutputDto updateCity(@PathVariable("city") String city, Principal principal) throws Exception {
+        Employee employee = employeeServicePort.updateCity(city, principal.getName());
+        return new EmployeeOutputDto(employee);
+    }
 }
