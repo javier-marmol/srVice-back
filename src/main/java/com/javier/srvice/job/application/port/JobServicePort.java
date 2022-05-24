@@ -1,5 +1,6 @@
 package com.javier.srvice.job.application.port;
 
+import com.javier.srvice.employee.domain.Employee;
 import com.javier.srvice.job.domain.Job;
 import com.javier.srvice.job.infrastructure.controller.dto.input.JobInputDto;
 
@@ -16,4 +17,5 @@ public interface JobServicePort {
     Job employeeDefineAsFinished(Integer idJob, String emailAuth) throws Exception;
     List<Job> findByCity(String city, String emailAuth) throws Exception;
     List<Job> findByClient(Integer idClient, String emailAuth) throws Exception;
+    Employee getSelectedCandidate(Integer idJob) throws Exception;
 }

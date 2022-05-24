@@ -1,5 +1,7 @@
 package com.javier.srvice.job.infrastructure.controller;
 
+import com.javier.srvice.employee.domain.Employee;
+import com.javier.srvice.employee.infrastructure.controller.dto.output.EmployeeOutputDto;
 import com.javier.srvice.job.application.port.JobServicePort;
 import com.javier.srvice.job.domain.Job;
 import com.javier.srvice.job.infrastructure.controller.dto.input.JobInputDto;
@@ -67,5 +69,10 @@ public class JobController {
     public List<JobOutputDto> findByClient(@PathVariable("idClient") Integer idClient, Principal principal) throws Exception {
         List<Job> jobs = jobServicePort.findByClient(idClient, principal.getName());
         return jobs.stream().map(JobOutputDto::new).collect(Collectors.toList());
+    }
+    @GetMapping("getSelectedCandidateByJob/{idJob}")
+    public EmployeeOutputDto getSelectedCandidateByJob(@PathVariable Integer idJob) throws Exception {
+        Employee employee = jobServicePort.getSelectedCandidate(idJob);
+        return new EmployeeOutputDto(employee);
     }
 }
