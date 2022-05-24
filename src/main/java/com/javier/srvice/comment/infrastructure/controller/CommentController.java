@@ -40,4 +40,8 @@ public class CommentController {
         List<Comment> comments = commentServicePort.getEmployeeComments(idEmployee);
         return comments.stream().map(CommentOutputDto::new).collect(Collectors.toList());
     }
+    @GetMapping("checkIfCommented/{idJob}/{idUser}")
+    public Boolean checkIfCommented(@PathVariable("idJob")Integer idJob, @PathVariable("idUser") Integer idUser) throws Exception {
+        return commentServicePort.checkIfCommented(idJob, idUser);
+    }
 }

@@ -10,4 +10,5 @@ public interface CommentServicePort {
     Comment update(CommentInputDto commentInputDto, Integer idComment, String emailAuth) throws Exception;
     List<Comment> getClientComments(Integer idClient) throws Exception;
     List<Comment> getEmployeeComments(Integer idEmployee) throws Exception;
+    Boolean checkIfCommented(Integer idJob, Integer idUser) throws Exception;
 }
