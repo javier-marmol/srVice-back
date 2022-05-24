@@ -34,4 +34,9 @@ public class UserController {
         User user = userServicePort.getByEmployee(idEmployee);
         return new UserOutputDto(user);
     }
+    @GetMapping("getUserByClient/{idClient}")
+    public UserOutputDto getUserByClient(@PathVariable("idClient") Integer idClient) throws Exception {
+        User user = userServicePort.getByClient(idClient);
+        return new UserOutputDto(user);
+    }
 }
