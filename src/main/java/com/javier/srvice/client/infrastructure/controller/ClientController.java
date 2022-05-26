@@ -21,5 +21,9 @@ public class ClientController {
     public ClientOutputDto getLoggedClient(Principal principal) throws Exception {
         Client client = clientServicePort.getLoggedClient(principal.getName());
         return new ClientOutputDto(client);
+    }    @GetMapping("getById/{idClient}")
+    public ClientOutputDto getById(@PathVariable Integer idClient) throws Exception {
+        Client client = clientServicePort.getById(idClient);
+        return new ClientOutputDto(client);
     }
 }

@@ -23,4 +23,9 @@ public class ClientService implements ClientServicePort {
         Client client = clientRepositoryJpa.findByUser(user).orElseThrow(() -> new Exception("That client does not exists"));
         return client;
     }
+
+    @Override
+    public Client getById(Integer idClient) throws Exception {
+        return clientRepositoryJpa.findById(idClient).orElseThrow(() ->new Exception("That client does not exists"));
+    }
 }
