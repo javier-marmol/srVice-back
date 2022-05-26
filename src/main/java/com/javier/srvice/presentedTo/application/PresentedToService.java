@@ -34,7 +34,7 @@ public class PresentedToService implements PresentedToServicePort {
         PresentedTo presentedTo = new PresentedTo(presentedToInputDto);
         Job job = jobRepositoryJpa.findById(presentedToInputDto.getIdJob()).orElseThrow(() -> new Exception("Cannot present to a job that doesn't exist"));
         Employee employee = employeeRepositoryJpa.findById(presentedToInputDto.getIdEmployee()).orElseThrow(() -> new Exception("Cannot present to a job if you are not an employee"));
-        PresentedTo alreadyPresented = presentedToRepositoryJpa.findByEmployee(employee).orElse(null);
+        PresentedTo alreadyPresented = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job).orElse(null);
         if(alreadyPresented!=null) throw new Exception("Cannot present to a job that you are already presented to");
         AuthUtil.checkAuth(employee.getUser(),emailAuth);
         if(job.getInProgress()==true) throw new Exception("Cannot present to a job that is already in progress");
@@ -50,7 +50,7 @@ public class PresentedToService implements PresentedToServicePort {
         Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
         Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("That employee does not exists"));
         AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
-        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job);
+        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job).orElseThrow();
         presentedTo.setSelected(true);
         job.setSearchingCandidate(false);
         job.setInProgress(true);
@@ -63,7 +63,7 @@ public class PresentedToService implements PresentedToServicePort {
         Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
         Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("That employee does not exists"));
         AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
-        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job);
+        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job).orElseThrow();
         presentedTo.setFavourite(true);
         presentedToRepositoryJpa.save(presentedTo);
         return presentedTo;
@@ -73,7 +73,7 @@ public class PresentedToService implements PresentedToServicePort {
         Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
         Employee employee = employeeRepositoryJpa.findById(idEmployee).orElseThrow(() -> new Exception("That employee does not exists"));
         AuthUtil.checkAuth(job.getClient().getUser(), emailAuth);
-        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job);
+        PresentedTo presentedTo = presentedToRepositoryJpa.findByEmployeeAndJob(employee, job).orElseThrow();
         presentedTo.setFavourite(false);
         presentedToRepositoryJpa.save(presentedTo);
         return presentedTo;

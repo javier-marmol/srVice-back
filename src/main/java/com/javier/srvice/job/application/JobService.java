@@ -118,4 +118,12 @@ public class JobService implements JobServicePort {
         AuthUtil.checkAuth(client.getUser(), emailAuth);
         return client.getJobs();
     }
+
+    @Override
+    public Employee getSelectedCandidate(Integer idJob) throws Exception {
+        Job job = jobRepositoryJpa.findById(idJob).orElseThrow(()-> new Exception("That job does not exists"));
+        if(job.getSearchingCandidate()) throw new Exception("This job is still looking for a candidate");
+        PresentedTo presentedTo = job.getCandidates().stream().filter(e -> e.getSelected()).findFirst().get();
+        return presentedTo.getEmployee();
+    }
 }

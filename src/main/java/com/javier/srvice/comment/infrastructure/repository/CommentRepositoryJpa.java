@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface CommentRepositoryJpa extends JpaRepository<Comment, Integer> {
     List<Comment> findByJob(Job job);
     List<Comment> findByUserCommentedAndType(User user, String type);
+    Boolean existsByJobAndUserCommenter(Job job, User userCommenter);
 }

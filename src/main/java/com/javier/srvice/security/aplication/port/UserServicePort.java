@@ -22,4 +22,6 @@ public interface UserServicePort {
     User verificate(String email, String code) throws Exception;
 
     User getByEmployee(Integer idEmployee) throws Exception;
+
+    User getByClient(Integer idClient) throws Exception;
 }

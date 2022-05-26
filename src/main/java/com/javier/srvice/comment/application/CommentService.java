@@ -80,6 +80,14 @@ public class CommentService implements CommentServicePort {
         return comments;
     }
 
+    @Override
+    public Boolean checkIfCommented(Integer idJob, Integer idUser) throws Exception {
+        Job job = jobRepositoryJpa.findById(idJob).orElseThrow(() -> new Exception("That job does not exists"));
+        User user = userRepositoryJpa.findById(idUser).orElseThrow(() -> new Exception("That user does not exists"));
+        Boolean exists = commentRepositoryJpa.existsByJobAndUserCommenter(job, user);
+        return exists;
+    }
+
     private void setCommentType(Job job, Comment comment) {
         if(job.getClient().getUser().getId()== comment.getUserCommenter().getId())
             comment.setType("toEmployee");
