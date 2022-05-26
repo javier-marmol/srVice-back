@@ -6,8 +6,11 @@ import com.javier.srvice.comment.infrastructure.controller.dto.input.CommentInpu
 import com.javier.srvice.comment.infrastructure.controller.dto.output.CommentOutputDto;
 import com.javier.srvice.shared.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +44,7 @@ public class CommentController {
         return comments.stream().map(CommentOutputDto::new).collect(Collectors.toList());
     }
     @GetMapping("checkIfCommented/{idJob}/{idUser}")
-    public Boolean checkIfCommented(@PathVariable("idJob")Integer idJob, @PathVariable("idUser") Integer idUser) throws Exception {
-        return commentServicePort.checkIfCommented(idJob, idUser);
+    public ResponseEntity<?> checkIfCommented(@PathVariable("idJob")Integer idJob, @PathVariable("idUser") Integer idUser) throws Exception {
+        return new ResponseEntity<Boolean>(commentServicePort.checkIfCommented(idJob, idUser), HttpStatus.OK);
     }
 }
